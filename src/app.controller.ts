@@ -8,6 +8,7 @@ export class AppController {
 
   @Get()
   getHello() {
+    throw new Error('My first Sentry error!')
     return this.appService.getHello()
   }
 }

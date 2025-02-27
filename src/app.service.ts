@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import { PrismaService } from './connections/database/prisma.service'
+import { DataBaseService } from './connections/database/database.service'
 
 @Injectable()
 export class AppService {
   constructor() {}
 
-  @Inject(PrismaService)
-  private readonly prisma: PrismaService
+  @Inject(DataBaseService)
+  private readonly prisma: DataBaseService
   async getHello() {
     const data = await this.prisma.users.findMany()
     return data
