@@ -1,3 +1,4 @@
+import chalk from 'chalk'
 import * as dotenv from 'dotenv'
 
 import { registerSentry } from '~/global/sentry.global'
@@ -14,6 +15,7 @@ function registerGlobal() {
     isDev,
     consola,
     cwd,
+    chalk,
   })
 }
 

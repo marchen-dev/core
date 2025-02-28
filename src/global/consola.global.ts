@@ -1,6 +1,6 @@
-import { LOG_DIR } from 'src/constants/path.constants'
-
 import { createLogger, Logger } from '@innei/pretty-logger-nestjs'
+
+import { LOG_DIR } from '~/constants/path.constants'
 
 const logger = createLogger({
   writeToFile: {

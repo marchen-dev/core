@@ -1,11 +1,15 @@
 import { LoggerModule } from '@innei/pretty-logger-nestjs'
 import { Module } from '@nestjs/common'
-import { APP_FILTER } from '@nestjs/core'
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
 import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup'
 
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { ExceptionsFilter } from './common/filters/exception.filter'
+import { ResponseInterceptor } from './common/interceptors/interceptors.interceptor'
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { DataBaseModule } from './connections/database/database.module'
+import { UserModule } from './modules/user/user.module'
 
 @Module({
   controllers: [AppController],
@@ -15,7 +19,19 @@ import { DataBaseModule } from './connections/database/database.module'
       provide: APP_FILTER,
       useClass: SentryGlobalFilter,
     },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionsFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
   ],
-  imports: [DataBaseModule, LoggerModule, SentryModule],
+  imports: [DataBaseModule, LoggerModule, SentryModule, UserModule],
 })
 export class AppModule {}

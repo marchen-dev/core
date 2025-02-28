@@ -11,6 +11,5 @@ export class AppService {
   async getHello() {
     const data = await this.prisma.users.findMany()
     return data
-    // return 'Hello World!'
   }
 }
