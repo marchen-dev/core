@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 
 import { Logger } from '@innei/pretty-logger-nestjs'
+import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
@@ -19,6 +20,7 @@ export async function bootstrap() {
   })
 
   app.setGlobalPrefix(isDev ? '' : `api/v${version}`)
+  app.useGlobalPipes(new ValidationPipe())
 
   const config = new DocumentBuilder()
     .setTitle('Marchen')

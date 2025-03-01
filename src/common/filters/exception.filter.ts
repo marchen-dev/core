@@ -25,7 +25,10 @@ export class ExceptionsFilter<T> implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR
 
-    const message = (exception as MatchError)?.message || '服务端错误'
+    const message =
+      (exception as any)?.response?.message ??
+      (exception as MatchError)?.message ??
+      '服务端错误'
     logger.error(`[${request.method}] ${request.url} ${status} ${message}`)
     return response.status(status).type('application/json').send({
       status,

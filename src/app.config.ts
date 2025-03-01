@@ -3,5 +3,6 @@ export const appConfig = {
     port: 23117,
     version: 1,
     docs: 'api-docs',
+    'jwt-secret': 'suemor2323',
   },
 }

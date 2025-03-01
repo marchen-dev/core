@@ -1,7 +1,8 @@
-import { Controller, Get } from '@nestjs/common'
+import { Body, Controller, Post } from '@nestjs/common'
 
 import { ApiName } from '~/common/decorators/api-name.decorator'
 
+import { LoginDto, UserDto } from './user.dto'
 import { UserService } from './user.service'
 
 @Controller('user')
@@ -9,8 +10,13 @@ import { UserService } from './user.service'
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  create() {
-    return '1'
+  @Post('register')
+  register(@Body() user: UserDto) {
+    return this.userService.registerMaster(user)
+  }
+
+  @Post('login')
+  login(@Body() user: LoginDto) {
+    return this.userService.login(user)
   }
 }
