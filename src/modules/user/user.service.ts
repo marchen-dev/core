@@ -1,4 +1,5 @@
 import { hash } from 'bcryptjs'
+import { nanoid } from 'nanoid'
 
 import { BadRequestException, Injectable } from '@nestjs/common'
 
@@ -16,20 +17,21 @@ export class UserService {
   async registerMaster(user: UserDto) {
     const hasMaster = await this.hasMaster()
     if (hasMaster) throw new BadRequestException('只允许注册一个主人')
-    const hashPassword = await hash(user.password, 9)
+    const hashPassword = await hash(user.password, 7)
+    const authCode = nanoid(10)
     await this.db.users.create({
       data: {
         ...user,
         password: hashPassword,
+        authCode,
       },
     })
     return
   }
 
   async login(user: LoginDto) {
-    const userId = await this.authService.validateUser(user)
-    // FIXME
-    return this.authService.sign(userId)
+    const authCode = await this.authService.validateUser(user)
+    return this.authService.sign(authCode)
   }
 
   async hasMaster() {

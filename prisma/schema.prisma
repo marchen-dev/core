@@ -8,11 +8,12 @@ datasource db {
 }
 
 model users {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   name      String   @unique
   nickname  String
   password  String
   email     String   @unique
+  authCode  String   @unique
   introduce String?
   created   DateTime @default(now())
 }

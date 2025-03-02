@@ -8,16 +8,21 @@ import { JwtService } from '~/processors/helper/helper.jwt.service'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 
+const jwtModule = JwtModule.registerAsync({
+  useFactory() {
+    return {
+      secret: appConfig.jwt.secret,
+      signOptions: {
+        expiresIn: appConfig.jwt.expiresIn,
+        algorithm: 'HS256',
+      },
+    }
+  },
+})
 @Module({
-  imports: [
-    PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({
-      secret: appConfig.app['jwt-secret'],
-      signOptions: { expiresIn: '14d' }, // token 过期时效
-    }),
-  ],
+  imports: [PassportModule, jwtModule],
   controllers: [AuthController],
   providers: [AuthService, JwtService],
-  exports: [AuthService],
+  exports: [AuthService, JwtService, jwtModule],
 })
 export class AuthModule {}

@@ -26,6 +26,11 @@ export async function bootstrap() {
     .setTitle('Marchen')
     .setDescription('In development')
     .setVersion(version.toString())
+    .addSecurity('bearer', {
+      type: 'http',
+      scheme: 'bearer',
+    })
+    .addBearerAuth()
     .build()
 
   const documentFactory = () => SwaggerModule.createDocument(app, config)

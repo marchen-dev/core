@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt'
 import { DataBaseService } from '~/connections/database/database.service'
 
 import { LoginDto } from '../user/user.dto'
+import { JwtPayloadDto } from './auth.dto'
 
 @Injectable()
 export class AuthService {
@@ -15,19 +16,31 @@ export class AuthService {
   ) {}
 
   async validateUser(user: LoginDto) {
-    const foundUser = await this.db.users.findUnique({
+    const dbUser = await this.db.users.findUnique({
       where: {
         name: user.name,
       },
     })
-    if (!foundUser) throw new BadRequestException('用户不存在')
+    if (!dbUser) throw new BadRequestException('用户不存在')
 
-    const isPasswordValid = await compare(user.password, foundUser.password)
+    const isPasswordValid = await compare(user.password, dbUser.password)
     if (!isPasswordValid) throw new BadRequestException('密码错误')
-    return foundUser.id
+    return dbUser.authCode
   }
 
-  async sign(id: number) {
-    return this.jwtService.sign({ id })
+  async sign(authCode: string) {
+    return this.jwtService.sign({ authCode })
+  }
+  async verifyPayload(payload: JwtPayloadDto) {
+    const dbUser = await this.db.users.findUnique({
+      where: {
+        authCode: payload.authCode,
+      },
+      omit: {
+        password: true,
+        authCode: true,
+      },
+    })
+    return dbUser
   }
 }
