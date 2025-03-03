@@ -9,6 +9,7 @@ import { ExceptionsFilter } from './common/filters/exception.filter'
 import { ResponseInterceptor } from './common/interceptors/interceptors.interceptor'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { DataBaseModule } from './connections/database/database.module'
+import { AggregateModule } from './modules/aggregate/aggregate.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { UserModule } from './modules/user/user.module'
 
@@ -33,6 +34,13 @@ import { UserModule } from './modules/user/user.module'
       useClass: LoggingInterceptor,
     },
   ],
-  imports: [DataBaseModule, LoggerModule, SentryModule, UserModule, AuthModule],
+  imports: [
+    DataBaseModule,
+    LoggerModule,
+    SentryModule,
+    UserModule,
+    AuthModule,
+    AggregateModule,
+  ],
 })
 export class AppModule {}

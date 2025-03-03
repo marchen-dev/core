@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid'
 
 import { BadRequestException, Injectable } from '@nestjs/common'
 
+import { NotInitializedException } from '~/common/exceptions/not-initialized.exception'
 import { DataBaseService } from '~/connections/database/database.service'
 
 import { AuthService } from '../auth/auth.service'
@@ -32,6 +33,19 @@ export class UserService {
   async login(user: LoginDto) {
     const authCode = await this.authService.validateUser(user)
     return this.authService.sign(authCode)
+  }
+
+  async getMasterInfo() {
+    const hasMaster = await this.hasMaster()
+    if (!hasMaster) {
+      throw new NotInitializedException()
+    }
+    return this.db.users.findFirst({
+      omit: {
+        password: true,
+        authCode: true,
+      },
+    })
   }
 
   async hasMaster() {

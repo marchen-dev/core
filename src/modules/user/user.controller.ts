@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import { Body, Controller, Get, Post } from '@nestjs/common'
 
 import { ApiName } from '~/common/decorators/api-name.decorator'
 
@@ -18,5 +18,10 @@ export class UserController {
   @Post('login')
   login(@Body() user: LoginDto) {
     return this.userService.login(user)
+  }
+
+  @Get()
+  masterInfo() {
+    return this.userService.getMasterInfo()
   }
 }
