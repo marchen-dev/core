@@ -17,12 +17,16 @@ export class UserService {
   ) {}
   async registerMaster(user: UserDto) {
     const hasMaster = await this.hasMaster()
+    const { email, name, password, introduce, nickname } = user
     if (hasMaster) throw new BadRequestException('只允许注册一个主人')
-    const hashPassword = await hash(user.password, 7)
+    const hashPassword = await hash(password, 7)
     const authCode = nanoid(10)
     await this.db.users.create({
       data: {
-        ...user,
+        email,
+        name,
+        nickname: nickname ?? name,
+        introduce,
         password: hashPassword,
         authCode,
       },

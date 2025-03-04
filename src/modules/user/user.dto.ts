@@ -12,12 +12,12 @@ export class UserDto {
   readonly name: string
 
   @IsString()
-  @IsNotEmpty({ message: '昵称是必填项' })
+  @IsOptional()
   @ApiProperty({
     example: 'Sue',
     description: '用户的昵称',
   })
-  readonly nickname: string
+  readonly nickname?: string
 
   @IsString()
   @IsNotEmpty({ message: '密码是必填项' })
