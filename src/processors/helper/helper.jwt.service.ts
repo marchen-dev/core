@@ -22,8 +22,6 @@ export class JwtService extends PassportStrategy(Strategy) {
     if (!dbUser) {
       throw new UnauthorizedException('token无效')
     }
-    return {
-      user: dbUser,
-    }
+    return dbUser
   }
 }
