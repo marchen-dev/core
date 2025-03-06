@@ -6,6 +6,7 @@ export const appConfig = {
   },
   jwt: {
     secret: 'suemor233',
-    expiresIn: '14d',
+    // 14 days
+    expiresIn: 14,
   },
 }

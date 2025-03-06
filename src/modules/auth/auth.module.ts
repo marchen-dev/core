@@ -13,7 +13,7 @@ const jwtModule = JwtModule.registerAsync({
     return {
       secret: appConfig.jwt.secret,
       signOptions: {
-        expiresIn: appConfig.jwt.expiresIn,
+        expiresIn: `${appConfig.jwt.expiresIn}d`,
         algorithm: 'HS256',
       },
     }

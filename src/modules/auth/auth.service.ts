@@ -4,6 +4,7 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
 import { DataBaseService } from '~/connections/database/database.service'
+import { verifyTurnstileToken } from '~/utils/turnstile.util'
 
 import { LoginDto } from '../user/user.dto'
 import { JwtPayloadDto } from './auth.dto'
@@ -16,6 +17,9 @@ export class AuthService {
   ) {}
 
   async validateUser(user: LoginDto) {
+    const isSuccess = await verifyTurnstileToken(user.captchaToken)
+    if (!isSuccess)
+      throw new BadRequestException('cloudflare turnstile 验证未通过')
     const dbUser = await this.db.users.findUnique({
       where: {
         name: user.name,

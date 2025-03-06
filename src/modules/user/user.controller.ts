@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common'
 
+import { appConfig } from '~/app.config'
 import { ApiName } from '~/common/decorators/api-name.decorator'
 
 import { LoginDto, UserDto } from './user.dto'
@@ -16,8 +17,12 @@ export class UserController {
   }
 
   @Post('login')
-  login(@Body() user: LoginDto) {
-    return this.userService.login(user)
+  async login(@Body() user: LoginDto) {
+    const token = await this.userService.login(user)
+    return {
+      token,
+      expiresIn: appConfig.jwt.expiresIn,
+    }
   }
 
   @Get()

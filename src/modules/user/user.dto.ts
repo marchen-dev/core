@@ -61,4 +61,11 @@ export class LoginDto {
     description: '用户的密码',
   })
   readonly password: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'cloudflare Turnstile 验证码',
+  })
+  readonly captchaToken?: string
 }
