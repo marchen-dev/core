@@ -15,5 +15,6 @@ model users {
   email     String   @unique
   authCode  String   @unique
   introduce String?
+  avatar    String
   created   DateTime @default(now())
 }
