@@ -16,5 +16,36 @@ model users {
   authCode  String   @unique
   introduce String?
   avatar    String
+  social    Json?    @db.JsonB
   created   DateTime @default(now())
+}
+
+model friends {
+  id        String   @id @default(uuid())
+  name      String
+  url       String   @unique
+  avatar    String
+  introduce String
+  created   DateTime @default(now())
+}
+
+model posts {
+  id         String     @id @default(uuid())
+  title      String
+  content    String
+  cover      String
+  slug       String     @unique
+  tags       String[]
+  categoryId String
+  category   categories @relation(fields: [categoryId], references: [id])
+  updated    DateTime   @updatedAt
+  created    DateTime   @default(now())
+}
+
+model categories {
+  id      String   @id @default(uuid())
+  name    String   @unique
+  slug    String   @unique
+  created DateTime @default(now())
+  posts   posts[]
 }

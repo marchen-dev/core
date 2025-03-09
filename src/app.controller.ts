@@ -1,4 +1,5 @@
 import { Controller, Get } from '@nestjs/common'
+import { ApiOperation } from '@nestjs/swagger'
 
 import { AppService } from './app.service'
 import { ApiName } from './common/decorators/api-name.decorator'
@@ -9,6 +10,10 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('ping')
+  @ApiOperation({
+    summary: '测试接口',
+    description: '测试接口是否正常',
+  })
   getHello() {
     return 'pong'
   }

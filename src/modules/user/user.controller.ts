@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common'
+import { ApiOperation } from '@nestjs/swagger'
 
 import { appConfig } from '~/app.config'
 import { ApiName } from '~/common/decorators/api-name.decorator'
@@ -17,11 +18,16 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('register')
+  @ApiOperation({ summary: '用户注册', description: '注册一个新的主用户' })
   register(@Body() user: UserDto) {
     return this.userService.registerMaster(user)
   }
 
   @Post('login')
+  @ApiOperation({
+    summary: '用户登录',
+    description: '用户登录并返回 JWT token',
+  })
   async login(@Body() user: LoginDto) {
     const token = await this.userService.login(user)
     return {
@@ -31,12 +37,17 @@ export class UserController {
   }
 
   @Get()
+  @ApiOperation({ summary: '获取用户信息', description: '返回当前用户信息' })
   userInfo() {
     return this.userService.getMasterInfo()
   }
 
   @Get('master')
   @Auth()
+  @ApiOperation({
+    summary: '获取主用户信息',
+    description: '返回经过认证的主用户信息',
+  })
   masterInfo(@MasterInfo() master: MasterInfoDto) {
     return master
   }

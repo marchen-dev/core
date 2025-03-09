@@ -18,7 +18,7 @@ export class AuthService {
 
   async validateUser(user: LoginDto) {
     const isSuccess = await verifyTurnstileToken(user.captchaToken)
-    if (!isSuccess)
+    if (!isSuccess && !isDev)
       throw new BadRequestException('cloudflare turnstile 验证未通过')
     const dbUser = await this.db.users.findUnique({
       where: {

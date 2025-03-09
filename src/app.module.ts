@@ -11,6 +11,9 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { DataBaseModule } from './connections/database/database.module'
 import { AggregateModule } from './modules/aggregate/aggregate.module'
 import { AuthModule } from './modules/auth/auth.module'
+import { CategoryModule } from './modules/category/category.module'
+import { FriendModule } from './modules/friends/friend.module'
+import { PostModule } from './modules/post/post.module'
 import { UserModule } from './modules/user/user.module'
 
 @Module({
@@ -41,6 +44,9 @@ import { UserModule } from './modules/user/user.module'
     UserModule,
     AuthModule,
     AggregateModule,
+    FriendModule,
+    PostModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}
