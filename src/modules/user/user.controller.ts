@@ -9,18 +9,24 @@ import {
   MasterInfoDto,
 } from '~/common/decorators/current-user.decorator'
 
+import { SiteService } from '../site/site.service'
 import { LoginDto, UserDto } from './user.dto'
 import { UserService } from './user.service'
 
 @Controller('user')
 @ApiName
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly siteService: SiteService,
+  ) {}
 
   @Post('register')
   @ApiOperation({ summary: '用户注册', description: '注册一个新的主用户' })
-  register(@Body() user: UserDto) {
-    return this.userService.registerMaster(user)
+  async register(@Body() user: UserDto) {
+    await this.userService.registerMaster(user)
+    await this.siteService.initlizeSite()
+    return
   }
 
   @Post('login')

@@ -49,3 +49,11 @@ model categories {
   created DateTime @default(now())
   posts   posts[]
 }
+
+model site {
+  id          String   @id @default(uuid())
+  title       String   @default("SuemorのBlog")
+  description String   @default("所谓自由就是可以说二加二等于四的自由")
+  keywords    String[] @default(["Blog"])
+  created     DateTime @default(now())
+}

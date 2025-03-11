@@ -12,8 +12,9 @@ import { DataBaseModule } from './connections/database/database.module'
 import { AggregateModule } from './modules/aggregate/aggregate.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { CategoryModule } from './modules/category/category.module'
-import { FriendModule } from './modules/friends/friend.module'
+import { FriendModule } from './modules/friend/friend.module'
 import { PostModule } from './modules/post/post.module'
+import { SiteModule } from './modules/site/site.module'
 import { UserModule } from './modules/user/user.module'
 
 @Module({
@@ -47,6 +48,7 @@ import { UserModule } from './modules/user/user.module'
     FriendModule,
     PostModule,
     CategoryModule,
+    SiteModule,
   ],
 })
 export class AppModule {}
