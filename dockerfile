@@ -27,9 +27,6 @@ WORKDIR /app
 # 使用 corepack 安装并激活特定版本的 pnpm
 RUN corepack enable && corepack prepare pnpm@10.5.2 --activate
 
-# 安装 pnpm
-RUN npm install -g pnpm
-
 # 复制包管理文件
 COPY package.json pnpm-lock.yaml* ./
 
