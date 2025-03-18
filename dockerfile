@@ -1,4 +1,4 @@
-FROM node:20-alpine AS builder
+FROM node:23-alpine AS builder
 
 WORKDIR /app
 
@@ -20,7 +20,7 @@ RUN pnpm prisma generate
 # 构建 NestJS 应用
 RUN pnpm run build
 
-FROM node:20-alpine
+FROM node:23-alpine
 
 WORKDIR /app
 
