@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: marchen-postgres
+    restart: always
+    ports:
+      - '5432'
+    environment:
+      POSTGRES_USER: marchen
+      POSTGRES_PASSWORD: marchen
+      POSTGRES_DB: marchen
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - marchen-network
+
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: marchen-api
+    restart: always
+    ports:
+      - '23117:23117'
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://marchen:marchen@postgres:5432/marchen?schema=public
+      - SENTRY_DSN=${SENTRY_DSN}
+      - TURNSTILE_SECRET_KEY=${TURNSTILE_SECRET_KEY}
+    networks:
+      - marchen-network
+
+networks:
+  marchen-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

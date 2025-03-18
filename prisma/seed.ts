@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+import { hash } from 'bcryptjs'
+
 import { fakerZH_CN as faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 
@@ -49,16 +51,16 @@ async function seed() {
   // 先清除所有数据
   await clearAllData()
   console.log('Start seeding...')
-
+  const hashPassword = await hash('123456', 7)
   // ------------------------------
   // 填充 USERS 表
   // ------------------------------
   await prisma.users.create({
     data: {
       id: faker.string.uuid(),
-      name: faker.internet.username(),
+      name: 'suemor',
       nickname: faker.person.firstName(),
-      password: faker.internet.password(),
+      password: hashPassword,
       email: faker.internet.email(),
       authCode: faker.string.uuid(),
       introduce: faker.lorem.sentence(),
@@ -75,7 +77,7 @@ async function seed() {
   // ------------------------------
   // 填充 FRIENDS 表
   // ------------------------------
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 20; i++) {
     const name = faker.person.fullName()
     await prisma.friends.create({
       data: {
