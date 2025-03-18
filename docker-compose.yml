@@ -36,24 +36,6 @@ services:
     networks:
       - marchen-network
 
-  prisma-studio:
-    image: node:20-alpine
-    container_name: marchen-prisma-studio
-    restart: always
-    working_dir: /app
-    command: sh -c "npm install -g prisma && npx prisma studio"
-    volumes:
-      - ./prisma:/app/prisma
-    environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
-    ports:
-      - '5555:5555'
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - marchen-network
-
 networks:
   marchen-network:
     driver: bridge

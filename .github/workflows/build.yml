@@ -1,0 +1,36 @@
+name: Build on Push
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 安装 pnpm
+      - uses: pnpm/action-setup@v4.1.0
+
+      # 设置 Node.js 环境
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      # 安装依赖
+      - name: Install dependencies
+        run: pnpm install
+
+      # 运行代码检查
+      - name: Run lint
+        run: pnpm lint
+
+      # 构建项目
+      - name: Build project
+        run: pnpm build
