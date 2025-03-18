@@ -1,36 +1,36 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16-alpine
     container_name: marchen-postgres
     restart: always
-    ports:
-      - '5432'
     environment:
-      POSTGRES_USER: marchen
-      POSTGRES_PASSWORD: marchen
-      POSTGRES_DB: marchen
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data  # 修改为绑定挂载
     networks:
       - marchen-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   app:
-    build:
-      context: .
-      dockerfile: dockerfile
-    container_name: marchen-api
+    container_name: marchen-core
+    image: suemor/marchen-core:latest
     restart: always
     ports:
       - '23117:23117'
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     env_file:
       - .env
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://marchen:marchen@postgres:5432/marchen?schema=public
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
       - SENTRY_DSN=${SENTRY_DSN}
       - TURNSTILE_SECRET_KEY=${TURNSTILE_SECRET_KEY}
     networks:
@@ -39,6 +39,3 @@ services:
 networks:
   marchen-network:
     driver: bridge
-
-volumes:
-  postgres_data:
