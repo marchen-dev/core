@@ -13,6 +13,7 @@ import { AggregateModule } from './modules/aggregate/aggregate.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { CategoryModule } from './modules/category/category.module'
 import { FriendModule } from './modules/friend/friend.module'
+import { McpModule } from './modules/mcp/mcp.module'
 import { PostModule } from './modules/post/post.module'
 import { SiteModule } from './modules/site/site.module'
 import { UserModule } from './modules/user/user.module'
@@ -49,6 +50,7 @@ import { UserModule } from './modules/user/user.module'
     PostModule,
     CategoryModule,
     SiteModule,
+    McpModule,
   ],
 })
 export class AppModule {}

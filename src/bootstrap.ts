@@ -8,11 +8,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { appConfig } from './app.config'
 import { AppModule } from './app.module'
 import { logger } from './global/consola.global'
+import { isDev } from './global/env.global'
 
 export async function bootstrap() {
   const { docs, port, version } = appConfig.app
 
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create(AppModule, { bodyParser: false })
   app.useLogger(app.get(Logger))
   app.enableCors({
     credentials: true,
