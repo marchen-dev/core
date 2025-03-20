@@ -19,7 +19,7 @@ export class AggregateService {
     const user = await this.userService.getMasterInfo()
     const aggregateData = await Promise.allSettled([
       this.categoryService.categoriesInfo(),
-      this.postService.getPostsByPagination({ page: 1, pageSize: 8 }),
+      this.postService.getPostsByPagination({ page: 1, pageSize: 6 }),
       this.friendService.friendsInfo(),
       this.siteService.siteInfo(),
     ])
