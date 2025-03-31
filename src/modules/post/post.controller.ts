@@ -11,15 +11,18 @@ import { ApiOperation } from '@nestjs/swagger'
 
 import { ApiName } from '~/common/decorators/api-name.decorator'
 import { Auth } from '~/common/decorators/auth.decorator'
-import { PaginationDto } from '~/shared/dto/pagination.dto'
 
-import { PostDto } from './post.dto'
+import { CategoryService } from '../category/category.service'
+import { PostDto, PostPaginationDto } from './post.dto'
 import { PostService } from './post.service'
 
 @Controller('posts')
 @ApiName
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private readonly categoryService: CategoryService,
+  ) {}
 
   @Auth()
   @Post()
@@ -37,8 +40,23 @@ export class PostController {
     summary: '获取文章列表',
     description: '分页获取文章列表，支持通过查询参数设置页码和每页条数。',
   })
-  async getPostsByPagination(@Query() pagination: PaginationDto) {
-    return this.postService.getPostsByPagination(pagination)
+  async getPostsByPagination(@Query() pagination: PostPaginationDto) {
+    // await new Promise((resolve) => setTimeout(resolve, 1000))
+    const [posts, categories] = await Promise.all([
+      this.postService.getPostsByPagination(pagination),
+      this.categoryService.categoriesInfo(),
+    ])
+
+    const nextId =
+      posts.length === pagination.take ? posts.at(-1)?.id : undefined
+    return {
+      data: {
+        posts,
+        categories,
+      },
+      take: pagination.take,
+      nextId,
+    }
   }
 
   @Auth()

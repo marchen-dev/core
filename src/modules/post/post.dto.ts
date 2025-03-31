@@ -1,6 +1,15 @@
-import { IsArray, IsNotEmpty, IsString, IsUrl } from 'class-validator'
+import {
+  IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+} from 'class-validator'
 
 import { ApiProperty } from '@nestjs/swagger'
+
+import { PaginationDto } from '~/shared/dto/pagination.dto'
 
 export class PostDto {
   @IsString()
@@ -52,4 +61,25 @@ export class PostDto {
     description: '文章所属分类的唯一标识符',
   })
   categoryId: string
+}
+
+export class PostPaginationDto extends PaginationDto {
+  @IsOptional()
+  @IsEnum(['asc', 'desc'])
+  @ApiProperty({
+    enum: ['asc', 'desc'],
+    example: 'desc',
+    description: '排序方向，默认为降序',
+    required: false,
+  })
+  orderBy?: 'asc' | 'desc' = 'desc'
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    example: 'default',
+    description: '根据指定分类排序，默认为 default',
+    required: false,
+  })
+  category?: string
 }

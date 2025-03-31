@@ -1,10 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 
 import { DataBaseService } from '~/connections/database/database.service'
-import { PaginationDto } from '~/shared/dto/pagination.dto'
 
 import { CategoryService } from '../category/category.service'
-import { PostDto } from './post.dto'
+import { PostDto, PostPaginationDto } from './post.dto'
 
 @Injectable()
 export class PostService {
@@ -38,20 +37,38 @@ export class PostService {
     return this.db.posts.delete({ where: { id } })
   }
 
-  async getPostsByPagination(paginationDto: PaginationDto) {
-    const { page, pageSize } = paginationDto
-    const skip = (page - 1) * pageSize
-    const take = pageSize
+  async getPostsByPagination(paginationDto: PostPaginationDto) {
+    const { take, cursor, orderBy, category } = paginationDto
     const dbPosts = await this.db.posts.findMany({
-      skip,
       take,
-      orderBy: { created: 'desc' },
+      cursor: cursor ? { id: cursor } : undefined,
+      skip: cursor ? 1 : undefined,
+      where: category
+        ? {
+            category: {
+              slug: category,
+            },
+          }
+        : undefined,
+      orderBy: { created: orderBy },
       include: { category: true },
     })
     return dbPosts
   }
 
+  async getPostsCount() {
+    return this.db.posts.count()
+  }
+
   async findPostById(id: string) {
     return this.db.posts.findUnique({ where: { id } })
+  }
+
+  async checkField(field?: string) {
+    const post = await this.db.posts.findFirst({ include: { category: true } })
+    if (post && field && !post[field]) {
+      throw new BadRequestException(`post 表中不存在 ${field} 字段`)
+    }
+    return true
   }
 }
