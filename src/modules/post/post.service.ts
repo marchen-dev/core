@@ -38,18 +38,23 @@ export class PostService {
   }
 
   async getPostsByPagination(paginationDto: PostPaginationDto) {
-    const { take, cursor, orderBy, category } = paginationDto
+    const { take, cursor, orderBy, category, search } = paginationDto
     const dbPosts = await this.db.posts.findMany({
       take,
       cursor: cursor ? { id: cursor } : undefined,
       skip: cursor ? 1 : undefined,
-      where: category
-        ? {
-            category: {
-              slug: category,
-            },
-          }
-        : undefined,
+      where: {
+        ...(category && {
+          category: {
+            slug: category,
+          },
+        }),
+        ...(search && {
+          title: {
+            contains: search.toLowerCase(),
+          },
+        }),
+      },
       orderBy: { created: orderBy },
       include: { category: true },
     })

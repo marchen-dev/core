@@ -82,4 +82,13 @@ export class PostPaginationDto extends PaginationDto {
     required: false,
   })
   category?: string
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    example: '搜索关键词',
+    description: '搜索关键词，默认为空',
+    required: false,
+  })
+  search?: string
 }
