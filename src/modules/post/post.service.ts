@@ -39,6 +39,7 @@ export class PostService {
 
   async getPostsByPagination(paginationDto: PostPaginationDto) {
     const { take, cursor, orderBy, category, search } = paginationDto
+    const searchValue = search?.replaceAll('+', ' ')
     const dbPosts = await this.db.posts.findMany({
       take,
       cursor: cursor ? { id: cursor } : undefined,
@@ -51,7 +52,8 @@ export class PostService {
         }),
         ...(search && {
           title: {
-            contains: search.toLowerCase(),
+            contains: searchValue,
+            mode: 'insensitive',
           },
         }),
       },
@@ -59,6 +61,43 @@ export class PostService {
       include: { category: true },
     })
     return dbPosts
+  }
+
+  async getArchives() {
+    const posts = await this.db.posts.findMany({
+      select: {
+        title: true,
+        created: true,
+        slug: true,
+        id: true,
+        category: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: { created: 'desc' },
+    })
+
+    // 按年份分组文章
+    const groupedByYear = posts.reduce((acc, post) => {
+      const year = new Date(post.created).getFullYear()
+      if (!acc[year]) {
+        acc[year] = []
+      }
+      acc[year].push(post)
+      return acc
+    }, {})
+
+    // 转换为数组格式，按年份降序排列
+    const result = Object.keys(groupedByYear)
+      .sort((a, b) => Number.parseInt(b) - Number.parseInt(a))
+      .map((year) => ({
+        year: Number.parseInt(year),
+        posts: groupedByYear[year],
+      }))
+
+    return result
   }
 
   async getPostsCount() {

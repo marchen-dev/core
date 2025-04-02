@@ -59,6 +59,15 @@ export class PostController {
     }
   }
 
+  @Get('archives')
+  @ApiOperation({
+    summary: '获取归档列表',
+    description: '获取归档列表。',
+  })
+  async getArchives() {
+    return this.postService.getArchives()
+  }
+
   @Auth()
   @Delete(':id')
   @ApiOperation({
