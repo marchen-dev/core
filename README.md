@@ -91,6 +91,46 @@ cp .env.example .env
 docker compose up -d
 ```
 
+## 发布流程
+
+项目使用 GitHub Actions 自动化发布流程：
+
+1. 确保所有变更已提交到主分支
+
+```bash
+git checkout main
+git pull origin main
+```
+
+2. 更新版本号并创建标签
+
+```bash
+# 执行版本升级（按提示选择 patch、minor 或 major）
+pnpm nbump
+
+# 也可以直接指定版本类型
+# pnpm nbump patch  # 适用于错误修复，小改动 (0.0.x)
+# pnpm nbump minor  # 适用于新功能，向后兼容 (0.x.0)
+# pnpm nbump major  # 适用于不兼容的 API 更改 (x.0.0)
+```
+
+3. 推送代码和标签以触发自动发布
+
+```bash
+git push --follow-tags
+```
+
+发布流程将自动执行以下步骤：
+
+- 构建项目代码
+- 构建 Docker 镜像并推送到 Docker Hub（使用 latest 和版本号标签）
+- 创建 GitHub Release 并生成变更日志
+
+注意：确保在仓库的 GitHub Secrets 中配置了以下密钥：
+
+- `DOCKER_USERNAME`: Docker Hub 用户名
+- `DOCKER_PASSWORD`: Docker Hub 密码
+
 ## API 文档
 
 启动应用后，访问 `/api/docs` 查看 Swagger API 文档。
