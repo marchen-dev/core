@@ -37,9 +37,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # 运行测试 (如果有测试脚本)
-      # - name: Run tests
-      #   run: pnpm test
+      # 生成 Prisma Client
+      - name: Generate Prisma Client
+        run: pnpm prisma generate
 
       # 构建项目
       - name: Build
@@ -79,5 +79,3 @@ jobs:
         with:
           draft: false
           prerelease: true
-          files: |
-            dist/*
