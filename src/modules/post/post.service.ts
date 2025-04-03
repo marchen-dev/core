@@ -100,6 +100,26 @@ export class PostService {
     return result
   }
 
+  async getPostBySlug(categorySlug: string, postSlug: string) {
+    const category = await this.categoryServer.findCategoryBySlug(categorySlug)
+    if (!category) {
+      throw new BadRequestException('分类不存在')
+    }
+
+    const post = await this.db.posts.findUnique({
+      where: { slug: postSlug, categoryId: category.id },
+      include: { category: true },
+    })
+    if (!post) {
+      throw new BadRequestException('文章不存在')
+    }
+    await this.db.posts.update({
+      where: { id: post.id },
+      data: { read: post.read + 1 },
+    })
+    return post
+  }
+
   async getPostsCount() {
     return this.db.posts.count()
   }

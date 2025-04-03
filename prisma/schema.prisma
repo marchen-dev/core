@@ -34,6 +34,7 @@ model posts {
   id         String     @id @default(uuid())
   title      String
   content    String
+  read       Int        @default(0)
   cover      String
   slug       String     @unique
   tags       String[]

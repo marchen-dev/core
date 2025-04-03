@@ -38,6 +38,14 @@ export class CategoryService {
     })
   }
 
+  findCategoryBySlug(slug: string) {
+    if (!slug) {
+      return
+    }
+    return this.db.categories.findUnique({
+      where: { slug },
+    })
+  }
   async deleteCategory(id: string) {
     const dbCategory = await this.findCategoryById(id)
     if (!dbCategory) {

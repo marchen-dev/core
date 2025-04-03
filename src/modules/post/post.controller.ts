@@ -35,6 +35,19 @@ export class PostController {
     return { message: '文章添加成功' }
   }
 
+  @Get('/:categorySlug/:postSlug')
+  @ApiOperation({
+    summary: '获取文章',
+    description: '通过分类和文章的 slug 获取文章。',
+  })
+  async getPost(
+    @Param('categorySlug') categorySlug: string,
+    @Param('postSlug') postSlug: string,
+  ) {
+    const post = await this.postService.getPostBySlug(categorySlug, postSlug)
+    return post
+  }
+
   @Get()
   @ApiOperation({
     summary: '获取文章列表',
