@@ -10,6 +10,7 @@ import { ResponseInterceptor } from './common/interceptors/interceptors.intercep
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { DataBaseModule } from './connections/database/database.module'
 import { AggregateModule } from './modules/aggregate/aggregate.module'
+import { AiModule } from './modules/ai/ai.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { CategoryModule } from './modules/category/category.module'
 import { FriendModule } from './modules/friend/friend.module'
@@ -49,6 +50,7 @@ import { UserModule } from './modules/user/user.module'
     PostModule,
     CategoryModule,
     SiteModule,
+    AiModule,
   ],
 })
 export class AppModule {}

@@ -42,6 +42,16 @@ model posts {
   category   categories @relation(fields: [categoryId], references: [id])
   updated    DateTime   @updatedAt
   created    DateTime   @default(now())
+  summaryId  String?    @unique
+  summary    summaries? @relation(fields: [summaryId], references: [id])
+}
+
+model summaries {
+  id      String   @id @default(uuid())
+  text    String
+  model   String
+  created DateTime @default(now())
+  post    posts?
 }
 
 model categories {

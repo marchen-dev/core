@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 
 import { DataBaseService } from '~/connections/database/database.service'
 
+import { AiService } from '../ai/ai.service'
 import { CategoryService } from '../category/category.service'
 import { PostDto, PostPaginationDto } from './post.dto'
 
@@ -10,6 +11,7 @@ export class PostService {
   constructor(
     private readonly db: DataBaseService,
     private readonly categoryServer: CategoryService,
+    private readonly aiService: AiService,
   ) {}
 
   async createPost(post: PostDto) {
@@ -25,8 +27,15 @@ export class PostService {
     if (!category) {
       throw new BadRequestException('categoryId 不存在')
     }
+    const summary = await this.aiService.generateAiSummary(post.content)
+    const createdSummary = await this.aiService.createSummary(summary)
 
-    return this.db.posts.create({ data: post })
+    return this.db.posts.create({
+      data: {
+        ...post,
+        summaryId: createdSummary.id,
+      },
+    })
   }
 
   async deletePost(id: string) {
@@ -58,7 +67,7 @@ export class PostService {
         }),
       },
       orderBy: { created: orderBy },
-      include: { category: true },
+      include: { category: true, summary: true },
     })
     return dbPosts
   }
@@ -108,7 +117,7 @@ export class PostService {
 
     const post = await this.db.posts.findUnique({
       where: { slug: postSlug, categoryId: category.id },
-      include: { category: true },
+      include: { category: true, summary: true },
     })
     if (!post) {
       throw new BadRequestException('文章不存在')

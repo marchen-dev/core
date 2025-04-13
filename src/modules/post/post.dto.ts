@@ -46,6 +46,7 @@ export class PostDto {
   slug: string
 
   @IsArray()
+  @IsOptional()
   @IsString({ each: true })
   @ApiProperty({
     example: ['NestJS', 'TypeScript', '后端开发'],
