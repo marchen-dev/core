@@ -25,8 +25,18 @@ export class CategoryService {
     })
   }
 
-  categoriesInfo() {
-    return this.db.categories.findMany()
+  async categoriesInfo() {
+    const categories = await this.db.categories.findMany({
+      include: {
+        _count: {
+          select: {
+            posts: true,
+          },
+        },
+      },
+    })
+
+    return categories
   }
 
   findCategoryById(id: string) {
