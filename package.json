@@ -1,7 +1,7 @@
 {
   "name": "@marchen-dev/core",
   "version": "0.0.3",
-  "packageManager": "pnpm@10.7.0",
+  "packageManager": "pnpm@10.8.1",
   "description": "",
   "license": "AGPLv3",
   "author": "Suemor233",
@@ -49,7 +49,7 @@
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
-    "@swc/cli": "^0.6.0",
+    "@swc/cli": "^0.7.0",
     "@swc/core": "^1.10.7",
     "@sxzz/eslint-config": "^5.1.1",
     "@types/express": "^5.0.0",
