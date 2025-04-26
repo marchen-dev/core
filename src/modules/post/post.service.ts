@@ -27,13 +27,11 @@ export class PostService {
     if (!category) {
       throw new BadRequestException('categoryId 不存在')
     }
-    const summary = await this.aiService.generateAiSummary(post.content)
-    const createdSummary = await this.aiService.createSummary(summary)
 
     return this.db.posts.create({
       data: {
         ...post,
-        summaryId: createdSummary.id,
+        summaryModel: await this.aiService.getCurrentModel(),
       },
     })
   }
@@ -67,7 +65,7 @@ export class PostService {
         }),
       },
       orderBy: { created: orderBy },
-      include: { category: true, summary: true },
+      include: { category: true },
     })
     return dbPosts
   }
@@ -117,7 +115,7 @@ export class PostService {
 
     const post = await this.db.posts.findUnique({
       where: { slug: postSlug, categoryId: category.id },
-      include: { category: true, summary: true },
+      include: { category: true },
     })
     if (!post) {
       throw new BadRequestException('文章不存在')
@@ -143,5 +141,50 @@ export class PostService {
       throw new BadRequestException(`post 表中不存在 ${field} 字段`)
     }
     return true
+  }
+  async getAllPosts() {
+    return this.db.posts.findMany({
+      select: {
+        title: true,
+        created: true,
+        updated: true,
+        slug: true,
+        id: true,
+        read: true,
+        tags: true,
+        category: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: { created: 'desc' },
+    })
+  }
+
+  async deleteMultiplePosts(ids: string[]) {
+    const posts = await this.db.posts.findMany({ where: { id: { in: ids } } })
+    if (posts.length !== ids.length) {
+      throw new BadRequestException('文章不存在')
+    }
+    return this.db.posts.deleteMany({ where: { id: { in: ids } } })
+  }
+
+  async getPostById(id: string) {
+    return this.db.posts.findUnique({ where: { id } })
+  }
+
+  async updatePost(id: string, post: PostDto) {
+    const dbPost = await this.findPostById(id)
+    if (!dbPost) {
+      throw new BadRequestException('文章不存在')
+    }
+    return this.db.posts.update({
+      where: { id },
+      data: {
+        ...post,
+        summaryModel: await this.aiService.getCurrentModel(),
+      },
+    })
   }
 }

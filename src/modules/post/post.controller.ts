@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common'
@@ -13,7 +14,7 @@ import { ApiName } from '~/common/decorators/api-name.decorator'
 import { Auth } from '~/common/decorators/auth.decorator'
 
 import { CategoryService } from '../category/category.service'
-import { PostDto, PostPaginationDto } from './post.dto'
+import { DeleteMultiplePostsDto, PostDto, PostPaginationDto } from './post.dto'
 import { PostService } from './post.service'
 
 @Controller('posts')
@@ -40,7 +41,7 @@ export class PostController {
     summary: '获取文章',
     description: '通过分类和文章的 slug 获取文章。',
   })
-  async getPost(
+  async getPostBySlug(
     @Param('categorySlug') categorySlug: string,
     @Param('postSlug') postSlug: string,
   ) {
@@ -72,6 +73,16 @@ export class PostController {
     }
   }
 
+  @Get('all')
+  @ApiOperation({
+    summary: '获取全部文章',
+    description: '获取全部文章。',
+  })
+  async getAllPosts() {
+    const posts = await this.postService.getAllPosts()
+    return posts
+  }
+
   @Get('archives')
   @ApiOperation({
     summary: '获取归档列表',
@@ -82,6 +93,20 @@ export class PostController {
   }
 
   @Auth()
+  @Delete()
+  @ApiOperation({
+    summary: '批量删除文章',
+    description: '通过提供一个包含文章 ID 的数组来一次性删除多篇文章。',
+  })
+  async deleteMultiplePosts(
+    @Body() deleteMultiplePostsDto: DeleteMultiplePostsDto, // 使用 @Body 接收请求体并验证
+  ) {
+    const { ids } = deleteMultiplePostsDto
+    await this.postService.deleteMultiplePosts(ids)
+    return
+  }
+
+  @Auth()
   @Delete(':id')
   @ApiOperation({
     summary: '删除文章',
@@ -89,6 +114,27 @@ export class PostController {
   })
   async deletePost(@Param('id') id: string) {
     await this.postService.deletePost(id)
-    return { message: '文章删除成功' }
+    return
+  }
+
+  @Get('/:id')
+  @ApiOperation({
+    summary: '获取文章',
+    description: '通过文章 ID 获取文章。',
+  })
+  async getPostById(@Param('id') id: string) {
+    const post = await this.postService.getPostById(id)
+    return post
+  }
+
+  @Auth()
+  @Patch(':id')
+  @ApiOperation({
+    summary: '更新文章',
+    description: '通过文章 ID 更新指定的文章。',
+  })
+  async updatePost(@Param('id') id: string, @Body() post: PostDto) {
+    await this.postService.updatePost(id, post)
+    return
   }
 }

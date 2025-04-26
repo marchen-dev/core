@@ -24,7 +24,7 @@ export class AppController {
     summary: '测试接口',
     description: '测试接口是否正常',
   })
-  getTest() {
+  async getTest() {
     return {
       name: packageJson.name,
       version: packageJson.version,

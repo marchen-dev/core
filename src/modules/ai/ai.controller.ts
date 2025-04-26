@@ -1,8 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import { ServerResponse } from 'node:http'
+
+import { Body, Controller, Post, Res } from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
 
 import { ApiName } from '~/common/decorators/api-name.decorator'
 
+import { AITextgenerationDto } from './ai.dto'
 import { AiService } from './ai.service'
 
 @Controller('ai')
@@ -10,12 +13,24 @@ import { AiService } from './ai.service'
 export class AiController {
   constructor(private readonly aiService: AiService) {}
 
-  @Post('summary')
+  @Post()
   @ApiOperation({
-    summary: 'AI 摘要',
-    description: '通过 AI 生成文章摘要',
+    summary: 'AI 内容生成',
+    description: '通过 AI 生成内容',
   })
-  async aiSummary(@Body() body: { content: string }) {
-    return this.aiService.generateAiSummary(body.content)
+  async AItextgeneration(@Body() ai: AITextgenerationDto) {
+    return this.aiService.generateAiText(ai.prompt, ai.type)
+  }
+
+  @Post('stream')
+  @ApiOperation({
+    summary: 'AI 文本流式生成',
+    description: '通过 SSE 流式生成 AI 文本',
+  })
+  async streamAiText(
+    @Body() ai: AITextgenerationDto,
+    @Res() res: ServerResponse,
+  ) {
+    return this.aiService.streamAiText(ai.prompt, res)
   }
 }

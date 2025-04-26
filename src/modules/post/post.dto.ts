@@ -1,4 +1,5 @@
 import {
+  ArrayNotEmpty,
   IsArray,
   IsEnum,
   IsNotEmpty,
@@ -9,6 +10,7 @@ import {
 
 import { ApiProperty } from '@nestjs/swagger'
 
+import { IsOptionalWithEmptyString } from '~/common/decorators/is-optional-with-empty-string'
 import { PaginationDto } from '~/shared/dto/pagination.dto'
 
 export class PostDto {
@@ -30,12 +32,12 @@ export class PostDto {
 
   @IsString()
   @IsUrl({}, { message: '封面 URL 格式无效' })
-  @IsNotEmpty({ message: '封面 URL 是必填项' })
+  @IsOptionalWithEmptyString()
   @ApiProperty({
     example: 'https://example.com/cover.jpg',
     description: '文章封面的图片地址',
   })
-  cover: string
+  cover?: string
 
   @IsString()
   @IsNotEmpty({ message: 'slug 是必填项' })
@@ -62,6 +64,22 @@ export class PostDto {
     description: '文章所属分类的唯一标识符',
   })
   categoryId: string
+
+  @IsString()
+  @IsOptionalWithEmptyString()
+  @ApiProperty({
+    example: '1234abcd',
+    description: '文章摘要',
+  })
+  summary?: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    example: 'gpt-4o-mini',
+    description: '文章摘要模型',
+  })
+  summaryModel?: string
 }
 
 export class PostPaginationDto extends PaginationDto {
@@ -92,4 +110,16 @@ export class PostPaginationDto extends PaginationDto {
     required: false,
   })
   search?: string
+}
+
+export class DeleteMultiplePostsDto {
+  @ApiProperty({
+    description: '需要删除的文章 ID 数组。',
+    type: [String], // 如果你的 ID 是数字类型，则为 [Number]
+    example: ['clqkf9zsr0000m8zjh7q3g3f9', 'clqkfa1b20002m8zjq9r8h4k5'], // 示例 ID
+  })
+  @IsArray({ message: 'ids 必须是一个数组' }) // 添加中文错误提示（可选）
+  @ArrayNotEmpty({ message: 'ids 数组不能为空' })
+  @IsString({ each: true, message: '数组中的每个 ID 必须是字符串' }) // 如果 ID 是数字，则使用 @IsNumber({ each: true })
+  ids: string[] // 如果 ID 是数字，则为 number[]
 }

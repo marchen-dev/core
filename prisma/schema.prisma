@@ -31,27 +31,19 @@ model friends {
 }
 
 model posts {
-  id         String     @id @default(uuid())
-  title      String
-  content    String
-  read       Int        @default(0)
-  cover      String
-  slug       String     @unique
-  tags       String[]
-  categoryId String
-  category   categories @relation(fields: [categoryId], references: [id])
-  updated    DateTime   @updatedAt
-  created    DateTime   @default(now())
-  summaryId  String?    @unique
-  summary    summaries? @relation(fields: [summaryId], references: [id])
-}
-
-model summaries {
-  id      String   @id @default(uuid())
-  text    String
-  model   String
-  created DateTime @default(now())
-  post    posts?
+  id           String     @id @default(uuid())
+  title        String
+  content      String
+  read         Int        @default(0)
+  cover        String?
+  slug         String     @unique
+  tags         String[]
+  summary      String?
+  summaryModel String?
+  categoryId   String
+  category     categories @relation(fields: [categoryId], references: [id])
+  updated      DateTime   @updatedAt
+  created      DateTime   @default(now())
 }
 
 model categories {
