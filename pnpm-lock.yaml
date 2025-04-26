@@ -133,8 +133,8 @@ importers:
         specifier: ^15.4.3
         version: 15.5.1
       nbump:
-        specifier: ^2.0.7
-        version: 2.0.9(conventional-commits-filter@5.0.0)
+        specifier: ^2.1.1
+        version: 2.1.1(conventional-commits-filter@5.0.0)
       prettier:
         specifier: ^3.5.2
         version: 3.5.3
@@ -3673,8 +3673,8 @@ packages:
     resolution: {integrity: sha512-kKHJhxwpR/Okycz4HhQKKlhWe4ASEfPgkSWNmKFHd7+ezuQlxkA5cM3+XkBPvm1gmHen3w53qsYAv+8GwRrBlg==}
     engines: {node: '>=18'}
 
-  nbump@2.0.9:
-    resolution: {integrity: sha512-k6leMcxNT3eOE0jQOqGw+tVXUJcT8qvtraFdZPvgFWZp63kDkTH8xlLojNRN7GMIkFfugXj3sIvdxCvdi+2L3Q==}
+  nbump@2.1.1:
+    resolution: {integrity: sha512-oaVobQLOVHAdL9ImlovQi32KVRTCkTkLsPsGErcAzQByhqzT0xy8MbQKc6EslvfOi0pWuDqiAGjQGGoxAwpImA==}
     hasBin: true
 
   negotiator@1.0.0:
@@ -4288,10 +4288,6 @@ packages:
     resolution: {integrity: sha512-bSiSngZ/jWeX93BqeIAbImyTbEihizcwNjFoRUIY/T1wWQsfsm2Vw1agPKylXvQTU7iASGdHhyqRlqQzfz+Htg==}
     engines: {node: '>=18'}
 
-  slugify@1.6.6:
-    resolution: {integrity: sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw==}
-    engines: {node: '>=8.0.0'}
-
   sort-keys-length@1.0.1:
     resolution: {integrity: sha512-GRbEOUqCxemTAk/b32F2xa8wDTs+Z1QHOkbhJDQTvv/6G3ZkbJ+frYWsTcc7cBB3Fu4wy4XlLCuNtJuMn7Gsvw==}
     engines: {node: '>=0.10.0'}
@@ -4795,6 +4791,11 @@ packages:
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
+
+  zx@8.5.3:
+    resolution: {integrity: sha512-TsGLAt8Ngr4wDXLZmN9BT+6FWVLFbqdQ0qpXkV3tIfH7F+MgN/WUeSY7W4nNqAntjWunmnRaznpyxtJRPhCbUQ==}
+    engines: {node: '>= 12.17.0'}
+    hasBin: true
 
 snapshots:
 
@@ -8673,11 +8674,11 @@ snapshots:
 
   natural-orderby@5.0.0: {}
 
-  nbump@2.0.9(conventional-commits-filter@5.0.0):
+  nbump@2.1.1(conventional-commits-filter@5.0.0):
     dependencies:
       c12: 3.0.3
       conventional-changelog: 6.0.0(conventional-commits-filter@5.0.0)
-      slugify: 1.6.6
+      zx: 8.5.3
     transitivePeerDependencies:
       - conventional-commits-filter
       - magicast
@@ -9266,8 +9267,6 @@ snapshots:
       ansi-styles: 6.2.1
       is-fullwidth-code-point: 5.0.0
 
-  slugify@1.6.6: {}
-
   sort-keys-length@1.0.1:
     dependencies:
       sort-keys: 1.1.2
@@ -9768,3 +9767,5 @@ snapshots:
   zod@3.24.3: {}
 
   zwitch@2.0.4: {}
+
+  zx@8.5.3: {}
