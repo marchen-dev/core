@@ -3,12 +3,13 @@ import { nanoid } from 'nanoid'
 
 import { BadRequestException, Injectable } from '@nestjs/common'
 
+import { MasterInfoDto } from '~/common/decorators/current-user.decorator'
 import { NotInitializedException } from '~/common/exceptions/not-initialized.exception'
 import { DataBaseService } from '~/connections/database/database.service'
 import { fetchAvatarFromEmail } from '~/utils/avatar.util'
 
 import { AuthService } from '../auth/auth.service'
-import { LoginDto, UserDto } from './user.dto'
+import { LoginDto, RegisterDto, UpdateUserDto } from './user.dto'
 
 @Injectable()
 export class UserService {
@@ -16,7 +17,7 @@ export class UserService {
     private readonly db: DataBaseService,
     private readonly authService: AuthService,
   ) {}
-  async registerMaster(user: UserDto) {
+  async registerMaster(user: RegisterDto) {
     const hasMaster = await this.hasMaster()
     const { email, name, password, introduce, nickname } = user
     if (hasMaster) throw new BadRequestException('只允许注册一个主人')
@@ -58,5 +59,21 @@ export class UserService {
 
   async hasMaster() {
     return !!(await this.db.users.count())
+  }
+
+  async getMaster() {
+    const hasMaster = await this.hasMaster()
+    if (!hasMaster) {
+      throw new NotInitializedException()
+    }
+    return this.db.users.findFirst()
+  }
+
+  updateMasterInfo(user: UpdateUserDto, master: MasterInfoDto) {
+    const { name, introduce, nickname, social, email, avatar } = user
+    return this.db.users.update({
+      where: { id: master.id },
+      data: { name, introduce, nickname, social, email, avatar },
+    })
   }
 }

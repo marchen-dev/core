@@ -27,4 +27,12 @@ export class SiteDto {
     isArray: true,
   })
   readonly keywords?: string[]
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    example: 'https://github.com/suemor233.png',
+    description: '站点的favicon',
+  })
+  readonly favicon?: string
 }

@@ -30,6 +30,7 @@ export class SiteService {
         title: 'SuemorのBlog',
         description: '所谓自由就是可以说二加二等于四的自由',
         keywords: ['Blog'],
+        favicon: 'https://github.com/suemor233.png',
       },
     })
   }

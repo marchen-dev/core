@@ -59,5 +59,6 @@ model site {
   title       String   @default("SuemorのBlog")
   description String   @default("所谓自由就是可以说二加二等于四的自由")
   keywords    String[] @default(["Blog"])
+  favicon     String?  @default("https://github.com/suemor233.png")
   created     DateTime @default(now())
 }

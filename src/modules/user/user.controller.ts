@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common'
+import { Body, Controller, Get, Patch, Post } from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
 
 import { appConfig } from '~/app.config'
@@ -10,7 +10,7 @@ import {
 } from '~/common/decorators/current-user.decorator'
 
 import { SiteService } from '../site/site.service'
-import { LoginDto, UserDto } from './user.dto'
+import { LoginDto, RegisterDto, UpdateUserDto } from './user.dto'
 import { UserService } from './user.service'
 
 @Controller('user')
@@ -23,7 +23,7 @@ export class UserController {
 
   @Post('register')
   @ApiOperation({ summary: '用户注册', description: '注册一个新的主用户' })
-  async register(@Body() user: UserDto) {
+  async register(@Body() user: RegisterDto) {
     await this.userService.registerMaster(user)
     await this.siteService.initlizeSite()
     return
@@ -56,5 +56,18 @@ export class UserController {
   })
   masterInfo(@MasterInfo() master: MasterInfoDto) {
     return master
+  }
+
+  @Patch('master')
+  @Auth()
+  @ApiOperation({
+    summary: '更新主用户信息',
+    description: '更新主用户信息',
+  })
+  updateMasterInfo(
+    @Body() user: UpdateUserDto,
+    @MasterInfo() master: MasterInfoDto,
+  ) {
+    return this.userService.updateMasterInfo(user, master)
   }
 }

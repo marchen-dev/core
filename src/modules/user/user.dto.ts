@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsObject,
+  IsOptional,
+  IsString,
+} from 'class-validator'
 
 import { ApiProperty } from '@nestjs/swagger'
 
@@ -19,14 +25,6 @@ export class UserDto {
   })
   readonly nickname?: string
 
-  @IsString()
-  @IsNotEmpty({ message: '密码是必填项' })
-  @ApiProperty({
-    example: '123456',
-    description: '用户的密码',
-  })
-  readonly password: string
-
   @IsEmail({}, { message: '邮箱格式无效' })
   @IsNotEmpty({ message: '邮箱是必填项' })
   @ApiProperty({
@@ -43,6 +41,32 @@ export class UserDto {
     required: false,
   })
   readonly introduce?: string
+}
+
+export class RegisterDto extends UserDto {
+  @IsString()
+  @IsNotEmpty({ message: '密码是必填项' })
+  @ApiProperty({
+    example: '123456',
+    description: '用户的密码',
+  })
+  readonly password: string
+}
+export class UpdateUserDto extends UserDto {
+  @IsObject()
+  @IsOptional()
+  @ApiProperty({
+    example: '{"github": "https://github.com/suemor"}',
+    description: '用户的社交链接',
+  })
+  social?: Record<string, string>
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    example: 'https://avatars.githubusercontent.com/u/123456789?v=4',
+    description: '用户的头像',
+  })
+  avatar?: string
 }
 
 export class LoginDto {
