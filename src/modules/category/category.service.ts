@@ -15,7 +15,7 @@ export class CategoryService {
       },
     })
     if (dbCategory) {
-      throw new BadRequestException('分类已存在')
+      throw new BadRequestException('分类名称或者路径已存在')
     }
     return this.db.categories.create({
       data: {
@@ -56,6 +56,17 @@ export class CategoryService {
       where: { slug },
     })
   }
+
+  async updateCategory(id: string, category: CategoryDto) {
+    const dbCategory = await this.findCategoryById(id)
+    if (!dbCategory) {
+      throw new BadRequestException('分类不存在')
+    }
+    return this.db.categories.update({
+      where: { id },
+      data: category,
+    })
+  }
   async deleteCategory(id: string) {
     const dbCategory = await this.findCategoryById(id)
     if (!dbCategory) {
@@ -73,5 +84,13 @@ export class CategoryService {
     }
 
     return this.db.categories.delete({ where: { id } })
+  }
+
+  async deleteCategoryBySlug(slug: string) {
+    const dbCategory = await this.findCategoryBySlug(slug)
+    if (!dbCategory) {
+      throw new BadRequestException('分类不存在')
+    }
+    return this.db.categories.delete({ where: { slug } })
   }
 }
