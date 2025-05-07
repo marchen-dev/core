@@ -51,6 +51,13 @@ export class RegisterDto extends UserDto {
     description: '用户的密码',
   })
   readonly password: string
+
+  @IsString()
+  @ApiProperty({
+    example: 'https://suemor.com',
+    description: '用户的网站',
+  })
+  readonly url: string
 }
 export class UpdateUserDto extends UserDto {
   @IsObject()

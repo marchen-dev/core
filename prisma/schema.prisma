@@ -8,6 +8,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum FriendStatus {
+  PENDING // 等待中
+  ACCEPTED // 被同意
+  ARCHIVED // 已归档
+}
+
 model users {
   id        String   @id @default(uuid())
   name      String   @unique
@@ -22,12 +28,14 @@ model users {
 }
 
 model friends {
-  id        String   @id @default(uuid())
+  id        String       @id @default(uuid())
   name      String
-  url       String   @unique
+  url       String       @unique
   avatar    String
   introduce String
-  created   DateTime @default(now())
+  email     String       @default("test@test.com")
+  status    FriendStatus @default(PENDING)
+  created   DateTime     @default(now())
 }
 
 model posts {
@@ -61,4 +69,5 @@ model site {
   keywords    String[] @default(["Blog"])
   favicon     String?  @default("https://github.com/suemor233.png")
   created     DateTime @default(now())
+  url         String   @default("https://suemor.com")
 }

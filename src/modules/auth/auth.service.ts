@@ -17,9 +17,7 @@ export class AuthService {
   ) {}
 
   async validateUser(user: LoginDto) {
-    const isSuccess = await verifyTurnstileToken(user.captchaToken)
-    if (!isSuccess && !isDev)
-      throw new BadRequestException('cloudflare turnstile 验证未通过')
+    await this.verifyCaptcha(user.captchaToken)
     const dbUser = await this.db.users.findUnique({
       where: {
         name: user.name,
@@ -30,6 +28,13 @@ export class AuthService {
     const isPasswordValid = await compare(user.password, dbUser.password)
     if (!isPasswordValid) throw new BadRequestException('密码错误')
     return dbUser.authCode
+  }
+
+  async verifyCaptcha(captchaToken?: string) {
+    const isSuccess = await verifyTurnstileToken(captchaToken)
+    if (!isSuccess)
+      throw new BadRequestException('cloudflare turnstile 验证未通过')
+    return true
   }
 
   async sign(authCode: string) {

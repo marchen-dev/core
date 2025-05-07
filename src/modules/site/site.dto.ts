@@ -35,4 +35,12 @@ export class SiteDto {
     description: '站点的favicon',
   })
   readonly favicon?: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    example: 'https://suemor.com',
+    description: '站点的url',
+  })
+  readonly url?: string
 }

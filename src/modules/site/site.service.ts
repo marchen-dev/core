@@ -21,7 +21,7 @@ export class SiteService {
     return this.db.site.findFirst()
   }
 
-  async initlizeSite() {
+  async initlizeSite(url: string) {
     if (await this.db.site.findFirst()) {
       throw new BadRequestException('站点信息已经初始化')
     }
@@ -31,6 +31,7 @@ export class SiteService {
         description: '所谓自由就是可以说二加二等于四的自由',
         keywords: ['Blog'],
         favicon: 'https://github.com/suemor233.png',
+        url,
       },
     })
   }

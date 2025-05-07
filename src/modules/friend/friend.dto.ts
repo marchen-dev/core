@@ -1,6 +1,13 @@
-import { IsNotEmpty, IsString, IsUrl } from 'class-validator'
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+} from 'class-validator'
 
 import { ApiProperty } from '@nestjs/swagger'
+import { FriendStatus } from '@prisma/client'
 
 export class FriendsDto {
   @IsString()
@@ -35,4 +42,35 @@ export class FriendsDto {
     description: '友链的介绍',
   })
   readonly introduce: string
+
+  @IsString()
+  @IsNotEmpty({ message: '邮箱是必填项' })
+  @ApiProperty({
+    example: 'test@test.com',
+    description: '友链的邮箱',
+  })
+  readonly email: string
+}
+
+export class FriendStatusDto {
+  @IsEnum(FriendStatus)
+  @IsOptional()
+  @ApiProperty({
+    example: 'PENDING',
+    description: '友链的状态',
+    enum: FriendStatus,
+    enumName: 'FriendStatus',
+    required: false,
+  })
+  readonly status?: FriendStatus
+}
+
+export class FriendCreateDto extends FriendsDto {
+  @IsString()
+  @IsNotEmpty({ message: '验证码是必填项' })
+  @ApiProperty({
+    example: '123456',
+    description: '验证码',
+  })
+  readonly captchaToken: string
 }

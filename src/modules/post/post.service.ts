@@ -67,7 +67,21 @@ export class PostService {
       orderBy: { created: orderBy },
       include: { category: true },
     })
-    return dbPosts
+
+    return dbPosts.map((post) => {
+      if (!post.cover) {
+        const hashSum = post.id
+          .split('')
+          .reduce((sum, char) => sum + char.charCodeAt(0), 0)
+        const imageNumber = (hashSum % 5) + 1
+
+        return {
+          ...post,
+          cover: `/${imageNumber}.jpg`,
+        }
+      }
+      return post
+    })
   }
 
   async getArchives() {
@@ -80,6 +94,7 @@ export class PostService {
         category: {
           select: {
             name: true,
+            slug: true,
           },
         },
       },
