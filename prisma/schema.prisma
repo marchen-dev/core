@@ -14,6 +14,14 @@ enum FriendStatus {
   ARCHIVED // 已归档
 }
 
+enum ConfigKey {
+  AI // AI配置
+}
+
+enum AiProvider {
+  OPENAI
+}
+
 model users {
   id        String   @id @default(uuid())
   name      String   @unique
@@ -70,4 +78,22 @@ model site {
   favicon     String?  @default("https://github.com/suemor233.png")
   created     DateTime @default(now())
   url         String   @default("https://suemor.com")
+}
+
+model config {
+  id      String    @id @default(uuid())
+  key     ConfigKey @unique
+  value   Json      @db.JsonB
+  created DateTime  @default(now())
+}
+
+model ai {
+  id       String     @id @default(uuid())
+  apiUrl   String
+  apiKey   String     @unique
+  provider AiProvider
+  model    String
+  active   Boolean    @default(false)
+  system   Boolean    @default(false)
+  created  DateTime   @default(now())
 }

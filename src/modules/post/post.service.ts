@@ -196,10 +196,7 @@ export class PostService {
     }
     return this.db.posts.update({
       where: { id },
-      data: {
-        ...post,
-        summaryModel: await this.aiService.getCurrentModel(),
-      },
+      data: post,
     })
   }
 }

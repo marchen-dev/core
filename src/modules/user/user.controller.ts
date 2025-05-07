@@ -9,6 +9,7 @@ import {
   MasterInfoDto,
 } from '~/common/decorators/current-user.decorator'
 
+import { AiService } from '../ai/ai.service'
 import { SiteService } from '../site/site.service'
 import { LoginDto, RegisterDto, UpdateUserDto } from './user.dto'
 import { UserService } from './user.service'
@@ -19,6 +20,7 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly siteService: SiteService,
+    private readonly aiService: AiService,
   ) {}
 
   @Post('register')
@@ -26,6 +28,7 @@ export class UserController {
   async register(@Body() user: RegisterDto) {
     await this.userService.registerMaster(user)
     await this.siteService.initlizeSite(user.url)
+    await this.aiService.initializeAI()
     return
   }
 

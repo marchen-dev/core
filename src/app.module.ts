@@ -13,6 +13,7 @@ import { AggregateModule } from './modules/aggregate/aggregate.module'
 import { AiModule } from './modules/ai/ai.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { CategoryModule } from './modules/category/category.module'
+import { EncryptionModule } from './modules/encryption/encryption.module'
 import { FriendModule } from './modules/friend/friend.module'
 import { PostModule } from './modules/post/post.module'
 import { SiteModule } from './modules/site/site.module'
@@ -51,6 +52,7 @@ import { UserModule } from './modules/user/user.module'
     CategoryModule,
     SiteModule,
     AiModule,
+    EncryptionModule,
   ],
 })
 export class AppModule {}

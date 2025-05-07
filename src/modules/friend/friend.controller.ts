@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
@@ -56,7 +56,7 @@ export class FriendController {
     return
   }
 
-  @Patch(':id')
+  @Put(':id')
   @Auth()
   @ApiOperation({ summary: '更新朋友', description: '更新友链' })
   async updateFriend(@Param('id') id: string, @Body() friends: FriendsDto) {
