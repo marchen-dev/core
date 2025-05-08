@@ -1,4 +1,4 @@
-import { IsEnum, IsOptional, IsString, IsUrl } from 'class-validator'
+import { IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator'
 
 import { ApiProperty } from '@nestjs/swagger'
 import { AiProvider } from '@prisma/client'
@@ -56,7 +56,7 @@ export class AIDto {
   })
   provider: AiProvider
 
-  @IsUrl()
+  @IsString()
   @ApiProperty({
     example: 'https://api.openai.com/v1',
     description: 'API 地址',
@@ -69,4 +69,11 @@ export class AIDto {
     description: 'API 密钥',
   })
   apiKey: string
+
+  @IsBoolean()
+  @ApiProperty({
+    example: 'true',
+    description: '是否启用',
+  })
+  active: boolean
 }

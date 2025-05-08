@@ -1,6 +1,15 @@
 import { ServerResponse } from 'node:http'
 
-import { Body, Controller, Get, Post, Res } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Res,
+} from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
 
 import { ApiName } from '~/common/decorators/api-name.decorator'
@@ -50,5 +59,23 @@ export class AiController {
   })
   async getAllAI() {
     return this.aiService.getAllAI()
+  }
+
+  @Put(':id')
+  @ApiOperation({
+    summary: '更新 AI',
+    description: '更新 AI',
+  })
+  async updateAI(@Body() ai: AIDto, @Param('id') id: string) {
+    return this.aiService.updateAI(id, ai)
+  }
+
+  @Delete(':id')
+  @ApiOperation({
+    summary: '删除 AI',
+    description: '删除 AI',
+  })
+  async deleteAI(@Param('id') id: string) {
+    return this.aiService.deleteAI(id)
   }
 }

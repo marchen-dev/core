@@ -105,9 +105,15 @@ export class AiService {
     if (!ai) {
       throw new BadRequestException('未找到可用的 AI')
     }
+    const baseURL = ai.system
+      ? this.encryptionService.decryptKey(ai.apiUrl)
+      : ai.apiUrl
+    const apiKey = ai.system
+      ? this.encryptionService.decryptKey(ai.apiKey)
+      : ai.apiKey
     const openai = createOpenAI({
-      baseURL: this.encryptionService.decryptKey(ai.apiUrl),
-      apiKey: this.encryptionService.decryptKey(ai.apiKey),
+      baseURL,
+      apiKey,
     })
     return {
       server: openai,
@@ -142,9 +148,19 @@ export class AiService {
     if (aiExist) {
       throw new BadRequestException('此KEY已存在')
     }
-    await this.db.ai.create({
-      data: ai,
+    await this.db.$transaction(async (tx) => {
+      if (ai.active) {
+        await tx.ai.updateMany({
+          data: {
+            active: false,
+          },
+        })
+      }
+      await tx.ai.create({
+        data: ai,
+      })
     })
+
     return
   }
 
@@ -153,6 +169,97 @@ export class AiService {
       omit: {
         apiKey: true,
       },
+      orderBy: {
+        created: 'asc',
+      },
     })
+  }
+
+  async updateAI(id: string, ai: AIDto) {
+    const aiExist = await this.db.ai.findUnique({
+      where: {
+        id,
+      },
+    })
+    if (!aiExist) {
+      throw new BadRequestException('此KEY不存在')
+    }
+    if (aiExist.active && !ai.active) {
+      throw new BadRequestException('至少需要一个 AI 处于启用状态')
+    }
+
+    if (aiExist.system) {
+      if (aiExist.active === ai.active) {
+        return
+      }
+      await this.db.$transaction(async (tx) => {
+        if (ai.active) {
+          await tx.ai.updateMany({
+            data: {
+              active: false,
+            },
+          })
+        }
+        await tx.ai.update({
+          where: {
+            id,
+          },
+          data: {
+            active: ai.active,
+          },
+        })
+      })
+      return
+    }
+    await this.db.$transaction(async (tx) => {
+      if (ai.active) {
+        await tx.ai.updateMany({
+          data: {
+            active: false,
+          },
+        })
+      }
+      await tx.ai.update({
+        where: {
+          id,
+        },
+        data: {
+          ...ai,
+          apiKey: ai.apiKey || aiExist.apiKey,
+        },
+      })
+    })
+    return
+  }
+  async deleteAI(id: string) {
+    const ai = await this.db.ai.findUnique({
+      where: {
+        id,
+      },
+    })
+    if (!ai) {
+      throw new BadRequestException('此KEY不存在')
+    }
+    if (ai.system) {
+      throw new BadRequestException('系统 AI 不能删除')
+    }
+    await this.db.$transaction(async (tx) => {
+      await tx.ai.delete({
+        where: {
+          id,
+        },
+      })
+      if (ai.active) {
+        await tx.ai.updateMany({
+          where: {
+            system: true,
+          },
+          data: {
+            active: true,
+          },
+        })
+      }
+    })
+    return
   }
 }
