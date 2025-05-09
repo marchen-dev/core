@@ -15,6 +15,7 @@ import { AuthModule } from './modules/auth/auth.module'
 import { CategoryModule } from './modules/category/category.module'
 import { EncryptionModule } from './modules/encryption/encryption.module'
 import { FriendModule } from './modules/friend/friend.module'
+import { PagesModule } from './modules/pages/pages.module'
 import { PostModule } from './modules/post/post.module'
 import { SiteModule } from './modules/site/site.module'
 import { UserModule } from './modules/user/user.module'
@@ -53,6 +54,7 @@ import { UserModule } from './modules/user/user.module'
     SiteModule,
     AiModule,
     EncryptionModule,
+    PagesModule,
   ],
 })
 export class AppModule {}

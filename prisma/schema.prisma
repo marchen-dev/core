@@ -97,3 +97,12 @@ model ai {
   system   Boolean    @default(false)
   created  DateTime   @default(now())
 }
+
+model pages {
+  id      String   @id @default(uuid())
+  title   String
+  content String
+  order   Int      @default(0)
+  slug    String   @unique
+  created DateTime @default(now())
+}
