@@ -137,4 +137,14 @@ export class PostController {
     await this.postService.updatePost(id, post)
     return
   }
+
+  @Post('like/:id')
+  @ApiOperation({
+    summary: '点赞文章',
+    description: '通过文章 ID 点赞文章。',
+  })
+  async likePost(@Param('id') id: string) {
+    await this.postService.likePost(id)
+    return
+  }
 }

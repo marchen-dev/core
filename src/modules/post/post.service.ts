@@ -196,7 +196,21 @@ export class PostService {
     }
     return this.db.posts.update({
       where: { id },
-      data: post,
+      data: {
+        ...post,
+        summaryModel: await this.aiService.getCurrentModel(),
+      },
+    })
+  }
+
+  async likePost(id: string) {
+    const post = await this.findPostById(id)
+    if (!post) {
+      throw new BadRequestException('文章不存在')
+    }
+    return this.db.posts.update({
+      where: { id },
+      data: { likes: post.likes + 1 },
     })
   }
 }

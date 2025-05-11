@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { CategoryService } from '../category/category.service'
 import { FriendService } from '../friend/friend.service'
+import { PagesService } from '../pages/pages.service'
 import { PostService } from '../post/post.service'
 import { SiteService } from '../site/site.service'
 import { UserService } from '../user/user.service'
@@ -14,6 +15,7 @@ export class AggregateService {
     private readonly postService: PostService,
     private readonly friendService: FriendService,
     private readonly siteService: SiteService,
+    private readonly pageService: PagesService,
   ) {}
   async aggregate() {
     const user = await this.userService.getMasterInfo()
@@ -22,8 +24,9 @@ export class AggregateService {
       this.postService.getPostsByPagination({ take: 6 }),
       this.friendService.friendsInfo(),
       this.siteService.siteInfo(),
+      this.pageService.getPages(),
     ])
-    const [category, post, friend, site] = aggregateData.map((data) => {
+    const [category, post, friend, site, page] = aggregateData.map((data) => {
       if (data.status === 'rejected') {
         return null
       }
@@ -36,6 +39,7 @@ export class AggregateService {
       post,
       friend,
       site,
+      page,
     }
   }
 }

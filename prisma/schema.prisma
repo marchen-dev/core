@@ -54,6 +54,7 @@ model posts {
   cover        String?
   slug         String     @unique
   tags         String[]
+  likes         Int        @default(0)
   summary      String?
   summaryModel String?
   categoryId   String
@@ -99,10 +100,14 @@ model ai {
 }
 
 model pages {
-  id      String   @id @default(uuid())
-  title   String
-  content String
-  order   Int      @default(0)
-  slug    String   @unique
-  created DateTime @default(now())
+  id           String   @id @default(uuid())
+  title        String
+  content      String
+  summary      String?
+  summaryModel String?
+  icon         String?
+  read         Int      @default(0)
+  likes        Int      @default(0)
+  slug         String   @unique
+  created      DateTime @default(now())
 }
