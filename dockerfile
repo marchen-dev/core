@@ -39,4 +39,4 @@ COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 23117
 
-CMD ["sh", "-c", "pnpm db:deploy && node dist/main"]
+CMD ["sh", "-c", "pnpm db:deploy && node dist/src/main.js"]
