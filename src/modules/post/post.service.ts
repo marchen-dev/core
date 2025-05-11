@@ -73,7 +73,7 @@ export class PostService {
         const hashSum = post.id
           .split('')
           .reduce((sum, char) => sum + char.charCodeAt(0), 0)
-        const imageNumber = (hashSum % 5) + 1
+        const imageNumber = (hashSum % 10) + 1
 
         return {
           ...post,
