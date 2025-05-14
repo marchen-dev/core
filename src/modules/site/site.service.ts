@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
+import { Prisma } from '@prisma/client'
 
 import { DataBaseService } from '~/connections/database/database.service'
 
@@ -21,11 +22,11 @@ export class SiteService {
     return this.db.site.findFirst()
   }
 
-  async initlizeSite(url: string) {
-    if (await this.db.site.findFirst()) {
+  async initlizeSite(url: string, tx: Prisma.TransactionClient) {
+    if (await tx.site.findFirst()) {
       throw new BadRequestException('站点信息已经初始化')
     }
-    return this.db.site.create({
+    return tx.site.create({
       data: {
         title: 'SuemorのBlog',
         description: '所谓自由就是可以说二加二等于四的自由',

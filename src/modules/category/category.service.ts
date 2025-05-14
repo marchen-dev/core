@@ -93,4 +93,8 @@ export class CategoryService {
     }
     return this.db.categories.delete({ where: { slug } })
   }
+
+  async getCategoryCount() {
+    return this.db.categories.count()
+  }
 }

@@ -4,6 +4,7 @@ import { z } from 'zod'
 
 import { createOpenAI } from '@ai-sdk/openai'
 import { BadRequestException, Injectable } from '@nestjs/common'
+import { Prisma } from '@prisma/client'
 
 import { DataBaseService } from '~/connections/database/database.service'
 import { k233, u233 } from '~/global/env.global'
@@ -121,12 +122,12 @@ export class AiService {
     }
   }
 
-  async initializeAI() {
-    const ai = await this.db.ai.findFirst()
+  async initializeAI(tx: Prisma.TransactionClient) {
+    const ai = await tx.ai.findFirst()
     if (ai) {
       return ai
     }
-    await this.db.ai.create({
+    await tx.ai.create({
       data: {
         apiUrl: u233,
         apiKey: k233,
@@ -261,5 +262,9 @@ export class AiService {
       }
     })
     return
+  }
+
+  async getAiCount() {
+    return this.db.ai.count()
   }
 }

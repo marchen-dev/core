@@ -146,4 +146,8 @@ export class PagesService {
     })
     return
   }
+
+  async getPageCount() {
+    return this.db.pages.count()
+  }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
+import { AiService } from '../ai/ai.service'
 import { CategoryService } from '../category/category.service'
 import { FriendService } from '../friend/friend.service'
 import { PagesService } from '../pages/pages.service'
@@ -16,6 +17,7 @@ export class AggregateService {
     private readonly friendService: FriendService,
     private readonly siteService: SiteService,
     private readonly pageService: PagesService,
+    private readonly aiService: AiService,
   ) {}
   async aggregate() {
     const user = await this.userService.getMasterInfo()
@@ -41,5 +43,25 @@ export class AggregateService {
       site,
       page,
     }
+  }
+
+  async aggregateDashboard() {
+    const aggregateData = await Promise.allSettled([
+      this.categoryService.getCategoryCount(),
+      this.postService.getPostCount(),
+      this.friendService.getFriendCount(),
+      this.pageService.getPageCount(),
+      this.aiService.getAiCount(),
+      this.postService.getPostCharacter(),
+    ])
+    const [category, post, friend, page, ai, character] = aggregateData.map(
+      (data) => {
+        if (data.status === 'rejected') {
+          return null
+        }
+        return data.value
+      },
+    )
+    return { count: { category, post, page, friend, ai, character } }
   }
 }

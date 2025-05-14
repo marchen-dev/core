@@ -26,9 +26,7 @@ export class UserController {
   @Post('register')
   @ApiOperation({ summary: '用户注册', description: '注册一个新的主用户' })
   async register(@Body() user: RegisterDto) {
-    await this.userService.registerMaster(user)
-    await this.siteService.initlizeSite(user.url)
-    await this.aiService.initializeAI()
+    await this.userService.initlizeSite(user)
     return
   }
 

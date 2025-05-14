@@ -213,4 +213,24 @@ export class PostService {
       data: { likes: post.likes + 1 },
     })
   }
+
+  async getPostCount() {
+    return this.db.posts.count()
+  }
+
+  async getPostCharacter() {
+    const posts = await this.db.posts.findMany({
+      select: {
+        content: true,
+      },
+    })
+
+    let totalCharacters = 0
+
+    for (const post of posts) {
+      totalCharacters += post.content.length
+    }
+
+    return totalCharacters
+  }
 }

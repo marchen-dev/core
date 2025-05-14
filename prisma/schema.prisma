@@ -54,7 +54,7 @@ model posts {
   cover        String?
   slug         String     @unique
   tags         String[]
-  likes         Int        @default(0)
+  likes        Int        @default(0)
   summary      String?
   summaryModel String?
   categoryId   String
@@ -76,7 +76,7 @@ model site {
   title       String   @default("SuemorのBlog")
   description String   @default("所谓自由就是可以说二加二等于四的自由")
   keywords    String[] @default(["Blog"])
-  favicon     String?  @default("https://github.com/suemor233.png")
+  favicon     String   @default("https://github.com/suemor233.png")
   created     DateTime @default(now())
   url         String   @default("https://suemor.com")
 }

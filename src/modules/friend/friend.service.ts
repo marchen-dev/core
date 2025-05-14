@@ -117,4 +117,8 @@ export class FriendService {
       },
     })
   }
+
+  async getFriendCount() {
+    return this.db.friends.count()
+  }
 }

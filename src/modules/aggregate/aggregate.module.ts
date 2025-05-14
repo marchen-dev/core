@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 
+import { AiModule } from '../ai/ai.module'
 import { CategoryModule } from '../category/category.module'
 import { FriendModule } from '../friend/friend.module'
 import { PagesModule } from '../pages/pages.module'
@@ -19,6 +20,7 @@ import { AggregateService } from './aggregate.service'
     FriendModule,
     SiteModule,
     PagesModule,
+    AiModule,
   ],
 })
 export class AggregateModule {}
