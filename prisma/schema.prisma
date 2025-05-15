@@ -111,3 +111,15 @@ model pages {
   slug         String   @unique
   created      DateTime @default(now())
 }
+
+model analyzes {
+  id         Int      @id @default(autoincrement())
+  ip         String?
+  path       String?
+  userAgent  String?
+  referer    String?
+  method     String?
+  statusCode Int?
+  duration   Int?
+  created    DateTime @default(now())
+}

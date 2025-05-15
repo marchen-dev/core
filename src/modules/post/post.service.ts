@@ -233,4 +233,20 @@ export class PostService {
 
     return totalCharacters
   }
+  async getPostReadCount() {
+    const result = await this.db.posts.aggregate({
+      _sum: {
+        read: true,
+      },
+    })
+    return result._sum.read || 0
+  }
+  async getPostLikeCount() {
+    const result = await this.db.posts.aggregate({
+      _sum: {
+        likes: true,
+      },
+    })
+    return result._sum.likes || 0
+  }
 }

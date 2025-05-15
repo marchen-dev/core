@@ -6,11 +6,13 @@ import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { ExceptionsFilter } from './common/filters/exception.filter'
+import { AnalyzeInterceptor } from './common/interceptors/analyze.interceptor'
 import { ResponseInterceptor } from './common/interceptors/interceptors.interceptor'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { DataBaseModule } from './connections/database/database.module'
 import { AggregateModule } from './modules/aggregate/aggregate.module'
 import { AiModule } from './modules/ai/ai.module'
+import { AnalyzeModule } from './modules/analyze/analyze.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { CategoryModule } from './modules/category/category.module'
 import { EncryptionModule } from './modules/encryption/encryption.module'
@@ -40,6 +42,10 @@ import { UserModule } from './modules/user/user.module'
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
     },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AnalyzeInterceptor,
+    },
   ],
   imports: [
     DataBaseModule,
@@ -55,6 +61,7 @@ import { UserModule } from './modules/user/user.module'
     AiModule,
     EncryptionModule,
     PagesModule,
+    AnalyzeModule,
   ],
 })
 export class AppModule {}
