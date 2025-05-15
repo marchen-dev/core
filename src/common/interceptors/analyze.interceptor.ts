@@ -32,7 +32,8 @@ export class AnalyzeInterceptor implements NestInterceptor {
           path: request.url,
           ip: request.headers['x-forwarded-for']?.toString() || '未知',
           userAgent: request.headers['user-agent'],
-          referer: request.headers.referer?.toString(),
+          // eslint-disable-next-line dot-notation
+          referer: request.headers['referer']?.toString(),
           method: request.method,
           statusCode: response.statusCode,
           duration,
