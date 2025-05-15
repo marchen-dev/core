@@ -1,6 +1,6 @@
 {
   "name": "@marchen-dev/core",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "packageManager": "pnpm@10.9.0",
   "description": "",
   "license": "AGPLv3",
