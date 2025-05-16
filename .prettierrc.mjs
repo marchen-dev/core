@@ -1,9 +1,6 @@
-import { factory } from '@innei/prettier';
+import { defineConfig } from '@suemor/prettier-config'
 
-export default {
-  ...factory({
-    tailwindcss: false,
-    importSort: true,
-  }),
-  importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
-};
+export default defineConfig({
+  importSort: true,
+  tailwindcss: false,
+})

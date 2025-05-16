@@ -84,9 +84,6 @@ importers:
       '@faker-js/faker':
         specifier: ^9.6.0
         version: 9.7.0
-      '@innei/prettier':
-        specifier: ^0.15.0
-        version: 0.15.0
       '@nestjs/cli':
         specifier: ^11.0.0
         version: 11.0.7(@swc/cli@0.7.3(@swc/core@1.11.22)(chokidar@4.0.3))(@swc/core@1.11.22)(@types/node@22.15.2)(esbuild@0.25.2)
@@ -96,6 +93,9 @@ importers:
       '@nestjs/testing':
         specifier: ^11.0.1
         version: 11.1.0(@nestjs/common@11.1.0(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.0)(@nestjs/platform-express@11.1.0)
+      '@suemor/prettier-config':
+        specifier: 0.0.3
+        version: 0.0.3(prettier@3.5.3)
       '@swc/cli':
         specifier: ^0.7.0
         version: 0.7.3(@swc/core@1.11.22)(chokidar@4.0.3)
@@ -736,9 +736,6 @@ packages:
     peerDependenciesMeta:
       '@vue/compiler-sfc':
         optional: true
-
-  '@innei/prettier@0.15.0':
-    resolution: {integrity: sha512-5U/NrXsISLSXt3ibqHX3cRfSKcJFmteeEcWXE31oxuT4+n2+aiUjIpc6NL7aeZi09paP8L5uc7Zlj2WCP9S4ig==}
 
   '@innei/pretty-logger-core@0.3.3':
     resolution: {integrity: sha512-BPJjPOcTnnNtKEXPTvkdlJSEg9HDV9QBr/IRwdUqD0/PzgHlUWZRizp17A/DbFU9wYwy1Ne1pmgInGEgxnzBKg==}
@@ -1440,6 +1437,10 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.8
 
+  '@reteps/dockerfmt@0.3.6':
+    resolution: {integrity: sha512-Tb5wIMvBf/nLejTQ61krK644/CEMB/cpiaIFXqGApfGqO3GwcR3qnI0DbmkFVCl2OyEp8LnLX3EkucoL0+tbFg==}
+    engines: {node: ^v12.20.0 || ^14.13.0 || >=16.0.0}
+
   '@scarf/scarf@1.4.0':
     resolution: {integrity: sha512-xxeapPiUXdZAE3che6f3xogoJPeZgig6omHEy1rIY5WVsB3H2BHNnZH+gHG6x91SCWyQCzWGsuL2Hh3ClO5/qQ==}
 
@@ -1484,6 +1485,11 @@ packages:
   '@sindresorhus/is@5.6.0':
     resolution: {integrity: sha512-TV7t8GKYaJWsn00tFDqBw8+Uqmr8A0fRU1tvTQhyZzGv0sJCGRQL3JGMI3ucuKo3XIZdUP+Lx7/gh2t3lewy7g==}
     engines: {node: '>=14.16'}
+
+  '@suemor/prettier-config@0.0.3':
+    resolution: {integrity: sha512-92OwJjB/pAso74AFcJyc/ic5WJebvgo+kP8lZRrdaxpGQFiG4MUmdHM6uVufZXYfJ1VJKRdPfhwnozvG43C/Ew==}
+    peerDependencies:
+      prettier: '>=3.0.0'
 
   '@swc/cli@0.7.3':
     resolution: {integrity: sha512-rnVXNnlURjdOuPaBIwZ3TmBA44BF/eP0j154LanlgPEYfau74ige7cpKlKkZr1IBqMOG99lAnYNxQipDWA3hdg==}
@@ -1997,38 +2003,38 @@ packages:
     resolution: {integrity: sha512-KbWgR8wOYRAPekEmMXrYYdc7BRyhn2Ftk7KWfMUnQ43hFdojWEFRxhhRUm3/OFEdPa1r0KAvTTg9YQK57xTe0g==}
     engines: {node: '>=0.8'}
 
-  autocorrect-node-darwin-arm64@2.13.0:
-    resolution: {integrity: sha512-3B47P+COHXmp4mRkwhRGk+WoyNDdX5TZOFitq9aTUgs5VUqV99aFFOLAakDSlizosjnt+ov2VtOOd1yMo37/Bw==}
+  autocorrect-node-darwin-arm64@2.14.0:
+    resolution: {integrity: sha512-l5IRTQz6zYAlkfEc5emIDXBkayD0MIwPPAVXCFMceFwyTNhAJ5veoKqRrsPuBVthIbfYKtAUs9oy9oFoHQn7bw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  autocorrect-node-darwin-x64@2.13.0:
-    resolution: {integrity: sha512-IUFp8/LeEmd08+rd6L84C0pQyeAmrd4fufEguFKXkrKTKn0svMj+NHNXA6OLWIriYHB3mjUMx1pMay4yp01zqA==}
+  autocorrect-node-darwin-x64@2.14.0:
+    resolution: {integrity: sha512-vRO0lwfXff2Fs41NzdDqN5t4VQ03M0Xsn6Tk4OjMrbjoWJqaEq05KZOTSaSF/wEs/7E1VoaI9Kz+c0fqylVX4Q==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  autocorrect-node-linux-x64-gnu@2.13.0:
-    resolution: {integrity: sha512-66yn5IMGrlejJZz0GVmFlTx5KZMlpFeFIwpwBa5TrW9s1n1zp5yuMQPcw/tQ5eP/tl9N1H+kJGQLTpcuguoNJQ==}
+  autocorrect-node-linux-x64-gnu@2.14.0:
+    resolution: {integrity: sha512-v1y1wh340cbhrHSZZP0oPkvWUprDtUIwnBP69Bls27VhQ2ZyVV4eijDNOP//yGUyUunMB0rtWoZaBsq8ugt1Kg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  autocorrect-node-linux-x64-musl@2.13.0:
-    resolution: {integrity: sha512-Z+S7oiU/rolDOLupj7Ou1LDLgXjur03YedZ0yQfyLxzVO+b5Q1087jkJp/zAkwknqb3ZfhxLZRHe78OMYLPhOg==}
+  autocorrect-node-linux-x64-musl@2.14.0:
+    resolution: {integrity: sha512-3LifiLG61VIXBrOITpD/REcg/ZEUuLz/P2XUWMCfGqhzoUb8oFgM3o0A6extvIH2NefiHMndB9kNbfQjXCl3zA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  autocorrect-node-win32-x64-msvc@2.13.0:
-    resolution: {integrity: sha512-eZr8zhLQSggRAAzHVg2sm0D/bFAUyxwS0cBf/UkJUML+YdHGAi3mvSsEsBMDT/oA6eWfOjf9HAa6RzKON3u+LQ==}
+  autocorrect-node-win32-x64-msvc@2.14.0:
+    resolution: {integrity: sha512-OM6TeGUW0+4R9KtUYTYNEwlInd+b2kumw/B1HCbCzb1F7HpfaNxnZiMk1li0bdPPBDzD5YuzwM30VJZMCWIi5A==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
 
-  autocorrect-node@2.13.0:
-    resolution: {integrity: sha512-jZOVp3JA1YEd/YX0u33XuOG5t4C7QAKkxo+V/f2BEEHvTRxDLFBnVeDewcdOI+Kw8xb1Dfm+rgOuVYpE7tbcGw==}
+  autocorrect-node@2.14.0:
+    resolution: {integrity: sha512-Pkdw3Hr1Wbtpm8f7KYOaPnHFa7TNVo9dyuOffVaNGN3iWWRBs011XBuCJUEmHV097kJkab94cs4P6KJ4pvI41g==}
     engines: {node: '>= 10'}
     hasBin: true
 
@@ -3656,10 +3662,6 @@ packages:
     resolution: {integrity: sha512-WWdIxpyjEn+FhQJQQv9aQAYlHoNVdzIzUySNV1gHUPDSdZJ3yZn7pAAbQcV7B56Mvu881q9FZV+0Vx2xC44VWA==}
     engines: {node: ^18.17.0 || >=20.5.0}
 
-  mvdan-sh@0.10.1:
-    resolution: {integrity: sha512-kMbrH0EObaKmK3nVRKUIIya1dpASHIEusM13S4V1ViHFuxuNxCo+arxoa6j/dbV22YBGjl7UKJm9QQKJ2Crzhg==}
-    deprecated: See https://github.com/mvdan/sh/issues/1145
-
   nanoid@3.3.11:
     resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -3941,14 +3943,14 @@ packages:
     resolution: {integrity: sha512-WxtodH/wWavfw3MR7yK/GrS4pASEQ+iSTkdtSxPJWvqzG55ir5nvbLt9rw5AOiEcqqPCRM92WCtR1rk3TG3JSQ==}
     hasBin: true
 
-  prettier-plugin-autocorrect@0.4.1:
-    resolution: {integrity: sha512-smL0VQEG+T4tIuOCCgxCTVeBpM3ybmmxIevitU2ktPyY0MtW1StyNJxt36i0jz19er+AsaklBFwCmj+ZUph+0w==}
+  prettier-plugin-autocorrect@0.4.3:
+    resolution: {integrity: sha512-dDB+Udi1539sh8sdfO28eGXHTduM5eL6hwF7EgzKkPwEYCleDI+o1mjSzKSBNxmQqgWtXrRA4JRT0igv48iIjQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
-      prettier: ^3.0.0
+      prettier: ^3.0.3
 
-  prettier-plugin-sh@0.14.0:
-    resolution: {integrity: sha512-hfXulj5+zEl/ulrO5kMuuTPKmXvOg0bnLHY1hKFNN/N+/903iZbNp8NyZBTsgI8dtkSgFfAEIQq0IQTyP1ZVFQ==}
+  prettier-plugin-sh@0.17.4:
+    resolution: {integrity: sha512-aAVKXZ7GTEMZdZsIPSwMwddwPvt2ibMbRGd4OJAP0G7QoeYZV+mPNg2Oln3R53sZ4PVjeAA7Xzi/PuI0QlHHfQ==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       prettier: ^3.0.3
@@ -4230,8 +4232,8 @@ packages:
   setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
 
-  sh-syntax@0.4.2:
-    resolution: {integrity: sha512-/l2UZ5fhGZLVZa16XQM9/Vq/hezGGbdHeVEA01uWjOL1+7Ek/gt6FquW0iKKws4a9AYPYvlz6RyVvjh3JxOteg==}
+  sh-syntax@0.5.7:
+    resolution: {integrity: sha512-74m9dt91konrF5+m0kASugzi37VxKsnTJQ6yvdDZu3IijG5/vIZpImP6FadsJLWNt2X2YD0VaTwW5W7Ox7mFVg==}
     engines: {node: '>=16.0.0'}
 
   shebang-command@2.0.0:
@@ -5279,33 +5281,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@innei/prettier@0.15.0':
-    dependencies:
-      '@ianvs/prettier-plugin-sort-imports': 4.3.1(prettier@3.5.3)
-      prettier: 3.5.3
-      prettier-package-json: 2.8.0
-      prettier-plugin-autocorrect: 0.4.1(prettier@3.5.3)
-      prettier-plugin-sh: 0.14.0(prettier@3.5.3)
-      prettier-plugin-tailwindcss: 0.6.11(@ianvs/prettier-plugin-sort-imports@4.3.1(prettier@3.5.3))(prettier@3.5.3)
-    transitivePeerDependencies:
-      - '@prettier/plugin-pug'
-      - '@shopify/prettier-plugin-liquid'
-      - '@trivago/prettier-plugin-sort-imports'
-      - '@vue/compiler-sfc'
-      - '@zackad/prettier-plugin-twig'
-      - prettier-plugin-astro
-      - prettier-plugin-css-order
-      - prettier-plugin-import-sort
-      - prettier-plugin-jsdoc
-      - prettier-plugin-marko
-      - prettier-plugin-multiline-arrays
-      - prettier-plugin-organize-attributes
-      - prettier-plugin-organize-imports
-      - prettier-plugin-sort-imports
-      - prettier-plugin-style-order
-      - prettier-plugin-svelte
-      - supports-color
-
   '@innei/pretty-logger-core@0.3.3':
     dependencies:
       cron: 3.1.6
@@ -6047,6 +6022,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@reteps/dockerfmt@0.3.6': {}
+
   '@scarf/scarf@1.4.0': {}
 
   '@sec-ant/readable-stream@0.4.1': {}
@@ -6130,6 +6107,33 @@ snapshots:
       - supports-color
 
   '@sindresorhus/is@5.6.0': {}
+
+  '@suemor/prettier-config@0.0.3(prettier@3.5.3)':
+    dependencies:
+      '@ianvs/prettier-plugin-sort-imports': 4.3.1(prettier@3.5.3)
+      prettier: 3.5.3
+      prettier-package-json: 2.8.0
+      prettier-plugin-autocorrect: 0.4.3(prettier@3.5.3)
+      prettier-plugin-sh: 0.17.4(prettier@3.5.3)
+      prettier-plugin-tailwindcss: 0.6.11(@ianvs/prettier-plugin-sort-imports@4.3.1(prettier@3.5.3))(prettier@3.5.3)
+    transitivePeerDependencies:
+      - '@prettier/plugin-pug'
+      - '@shopify/prettier-plugin-liquid'
+      - '@trivago/prettier-plugin-sort-imports'
+      - '@vue/compiler-sfc'
+      - '@zackad/prettier-plugin-twig'
+      - prettier-plugin-astro
+      - prettier-plugin-css-order
+      - prettier-plugin-import-sort
+      - prettier-plugin-jsdoc
+      - prettier-plugin-marko
+      - prettier-plugin-multiline-arrays
+      - prettier-plugin-organize-attributes
+      - prettier-plugin-organize-imports
+      - prettier-plugin-sort-imports
+      - prettier-plugin-style-order
+      - prettier-plugin-svelte
+      - supports-color
 
   '@swc/cli@0.7.3(@swc/core@1.11.22)(chokidar@4.0.3)':
     dependencies:
@@ -6724,28 +6728,28 @@ snapshots:
 
   author-regex@1.0.0: {}
 
-  autocorrect-node-darwin-arm64@2.13.0:
+  autocorrect-node-darwin-arm64@2.14.0:
     optional: true
 
-  autocorrect-node-darwin-x64@2.13.0:
+  autocorrect-node-darwin-x64@2.14.0:
     optional: true
 
-  autocorrect-node-linux-x64-gnu@2.13.0:
+  autocorrect-node-linux-x64-gnu@2.14.0:
     optional: true
 
-  autocorrect-node-linux-x64-musl@2.13.0:
+  autocorrect-node-linux-x64-musl@2.14.0:
     optional: true
 
-  autocorrect-node-win32-x64-msvc@2.13.0:
+  autocorrect-node-win32-x64-msvc@2.14.0:
     optional: true
 
-  autocorrect-node@2.13.0:
+  autocorrect-node@2.14.0:
     optionalDependencies:
-      autocorrect-node-darwin-arm64: 2.13.0
-      autocorrect-node-darwin-x64: 2.13.0
-      autocorrect-node-linux-x64-gnu: 2.13.0
-      autocorrect-node-linux-x64-musl: 2.13.0
-      autocorrect-node-win32-x64-msvc: 2.13.0
+      autocorrect-node-darwin-arm64: 2.14.0
+      autocorrect-node-darwin-x64: 2.14.0
+      autocorrect-node-linux-x64-gnu: 2.14.0
+      autocorrect-node-linux-x64-musl: 2.14.0
+      autocorrect-node-win32-x64-msvc: 2.14.0
 
   axios@1.9.0:
     dependencies:
@@ -8656,8 +8660,6 @@ snapshots:
 
   mute-stream@2.0.0: {}
 
-  mvdan-sh@0.10.1: {}
-
   nanoid@3.3.11: {}
 
   natural-compare@1.4.0: {}
@@ -8937,16 +8939,16 @@ snapshots:
       sort-object-keys: 1.1.3
       sort-order: 1.1.2
 
-  prettier-plugin-autocorrect@0.4.1(prettier@3.5.3):
+  prettier-plugin-autocorrect@0.4.3(prettier@3.5.3):
     dependencies:
-      autocorrect-node: 2.13.0
+      autocorrect-node: 2.14.0
       prettier: 3.5.3
 
-  prettier-plugin-sh@0.14.0(prettier@3.5.3):
+  prettier-plugin-sh@0.17.4(prettier@3.5.3):
     dependencies:
-      mvdan-sh: 0.10.1
+      '@reteps/dockerfmt': 0.3.6
       prettier: 3.5.3
-      sh-syntax: 0.4.2
+      sh-syntax: 0.5.7
 
   prettier-plugin-tailwindcss@0.6.11(@ianvs/prettier-plugin-sort-imports@4.3.1(prettier@3.5.3))(prettier@3.5.3):
     dependencies:
@@ -9197,7 +9199,7 @@ snapshots:
 
   setprototypeof@1.2.0: {}
 
-  sh-syntax@0.4.2:
+  sh-syntax@0.5.7:
     dependencies:
       tslib: 2.8.1
 
